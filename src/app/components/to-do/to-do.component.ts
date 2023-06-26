@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-to-do',
@@ -47,6 +47,16 @@ export class ToDoComponent implements OnInit {
     return formGroupFields;
   }
 
+  /**
+   * Method to add a new Task to FormArray
+   */
   addFormGroup() {
+    const newForm = this.formbuilder.group({
+      date : [Date, Validators.required],
+      task: ['', Validators.required],
+      remarks: ['']
+    });
+
+    this.taskArray.push(newForm);
   }
 }
