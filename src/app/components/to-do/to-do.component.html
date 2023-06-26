@@ -1,6 +1,37 @@
-<form [formGroup]="taskForm">
+<!-- <form [formGroup]="taskForm">
     <div *ngFor="let field of fields">
            <label>{{field}}</label>
     <input type="text" [formControlName]="field"/>
     </div>
-</form>
+</form> -->
+<form [formGroup]="taskForm">
+   
+          <label>Date:</label>
+          <input type="date" formControlName="date" required>
+  
+          <label>Task:</label>
+          <input type="text" formControlName="task" required>
+  
+          <label>Remarks:</label>
+          <textarea formControlName="remarks"></textarea>
+    
+    <button type="submit" (ngSubmit)="addFormGroup()">Submit</button>
+  </form>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Task</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let formGroup of taskArray.controls">
+        <td>{{ formGroup.get('date')?.value | date}}</td>
+        <td>{{ formGroup.get('task')?.value }}</td>
+        <td>{{ formGroup.get('remarks')?.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
