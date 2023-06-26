@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-to-do',
@@ -19,6 +19,13 @@ export class ToDoComponent implements OnInit {
     remarks: ''
   };
   taskForm!: FormGroup;
+  taskArray!: FormArray;
+
+  constructor(
+    private readonly formbuilder: FormBuilder
+  ) {
+    this.taskArray = this.formbuilder.array([]);
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -27,7 +34,8 @@ export class ToDoComponent implements OnInit {
   buildForm() {
     const formGroupFields = this.getFormControlField();
     this.taskForm = new FormGroup(formGroupFields);
-    console.log(this.taskForm);
+    this.taskArray.push(this.taskForm);
+    console.log(this.taskArray);
   }
 
   getFormControlField() {
@@ -37,5 +45,8 @@ export class ToDoComponent implements OnInit {
       this.fields.push(field);
     }
     return formGroupFields;
+  }
+
+  addFormGroup() {
   }
 }
