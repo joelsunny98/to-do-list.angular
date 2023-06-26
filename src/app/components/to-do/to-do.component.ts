@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HolidayService } from 'src/app/services/holiday.service';
 
 @Component({
   selector: 'app-to-do',
@@ -22,12 +23,14 @@ export class ToDoComponent implements OnInit {
   taskArray!: FormArray;
 
   constructor(
-    private readonly formbuilder: FormBuilder
+    private readonly formbuilder: FormBuilder,
+    private readonly holidayService: HolidayService
   ) {
     this.taskArray = this.formbuilder.array([]);
   }
 
   ngOnInit(): void {
+    this.taskArray = this.holidayService.getFormArray();
     this.buildForm();
   }
 

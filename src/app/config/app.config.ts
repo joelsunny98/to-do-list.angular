@@ -67,11 +67,3 @@ export const HOLIDAYS_ARRAY = [
     remarks: new FormControl('')
   }
 ];
-
-export const holidayFormArray: FormGroup[] = HOLIDAYS_ARRAY.map(holiday => {
-  return new FormGroup({
-    date: new FormControl(holiday.date, Validators.required),
-    task: new FormControl(holiday.task, Validators.required),
-    remarks: new FormControl(holiday.remarks)
-  });
-});
