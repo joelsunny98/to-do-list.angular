@@ -1,1 +1,6 @@
-<p>to-do works!</p>
+<form [formGroup]="taskForm">
+    <div *ngFor="let field of fields">
+           <label>{{field}}</label>
+    <input type="text" [formControlName]="field"/>
+    </div>
+</form>
