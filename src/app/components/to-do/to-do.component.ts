@@ -13,14 +13,9 @@ import { HolidayService } from 'src/app/services/holiday.service';
 
 })
 export class ToDoComponent implements OnInit {
-  fields: string[] = [];
-  model = {
-    date: Date,
-    task: '',
-    remarks: ''
-  };
   taskForm!: FormGroup;
   taskArray!: FormArray;
+  editMode: boolean[] = [];
 
   constructor(
     private readonly formbuilder: FormBuilder,
@@ -46,10 +41,33 @@ export class ToDoComponent implements OnInit {
   } 
 
   /**
+   * Method to create a new form group for every task 
+   *
+   * @param date 
+   * @param task 
+   * @param remarks 
+   * @returns Form Group
+   */
+  createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
+    return this.formbuilder.group({
+      date: [date, [Validators.required, this.weekendValidator]],
+      task: [task, Validators.required],
+      remarks: remarks
+    });
+  }
+
+  /**
    * Method to add a new Task to FormArray
    */
   addFormGroup() {
-    this.taskArray.push(this.taskForm);
+    if (this.taskForm.valid) {
+      const { date, task, remarks } = this.taskForm.value;
+      const newTaskFormGroup = this.createNewFormGroup(date, task, remarks);
+      this.taskArray.push(newTaskFormGroup);
+      this.taskForm.reset();
+
+      this.editMode = Array(this.taskArray.length).fill(false);
+    }
   }
 
   weekendValidator(control: FormControl) {
@@ -58,7 +76,15 @@ export class ToDoComponent implements OnInit {
     const day = selectedDate.getDay()
 
     const isWeekEnd = day === 0 || day === 6;
-    console.log(isWeekEnd)
     return isWeekEnd ? { isWeekend: true } : null;
+  }
+
+  startEditing(index: number) {
+    this.editMode[index] = true;
+  }
+
+  finishEditing(index: number) {
+    this.taskArray.at(index).setValue(this.taskForm)
+    this.editMode[index] = false
   }
 }

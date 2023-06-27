@@ -1,31 +1,32 @@
-<form [formGroup]="taskForm">
-   
-          <label>Date:</label>
-          <input type="date" formControlName="date" required>
-  
-          <label>Task:</label>
-          <input type="text" formControlName="task" required>
-  
-          <label>Remarks:</label>
-          <textarea formControlName="remarks"></textarea>
-    
-    <button type="submit" (click)="addFormGroup()">Submit</button>
-  </form>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Task</th>
-        <th>Remarks</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let formGroup of taskArray.controls">
-        <td>{{ formGroup.get('date')?.value | date}}</td>
-        <td>{{ formGroup.get('task')?.value }}</td>
-        <td>{{ formGroup.get('remarks')?.value }}</td>
-      </tr>
-    </tbody>
-  </table>
-  
+<div *ngFor="let taskGroup of taskArray.controls; let i = index">
+  <div>
+    <ng-container *ngIf="!editMode[i]">
+      <label>{{ taskGroup.get('date')?.value | date }}</label>
+      <label>{{ taskGroup.get('task')?.value }}</label>
+      <label>{{ taskGroup.get('remarks')?.value }}</label>
+      <button (click)="startEditing(i)">Edit</button>
+    </ng-container>
+    <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
+      <input type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date" >
+      <input type="text" [value]="taskGroup.get('task')?.value" formControlName="task" >
+      <input type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks" >
+      <button (click)="finishEditing(i)">Save</button>
+    </ng-container>
+  </div>
+</div>
+
+<form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
+  <div>
+    <label>Date:</label>
+    <input type="date" formControlName="date" required> 
+  </div>
+  <div>
+    <label>Task:</label>
+    <input type="text" formControlName="task" required>
+  </div>
+  <div>
+    <label>Remarks:</label>
+    <textarea formControlName="remarks"></textarea>
+  </div>
+  <button type="submit">Add Task</button>
+</form>
