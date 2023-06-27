@@ -39,16 +39,26 @@ export class ToDoComponent implements OnInit {
    */
   buildForm() {
     this.taskForm = this.formbuilder.group({
-      date: [Date, Validators.required],
+      date: [Date, [Validators.required, this.weekendValidator]],
       task: ['', Validators.required],
       remarks: ['']
     });
-  }
+  } 
 
   /**
    * Method to add a new Task to FormArray
    */
   addFormGroup() {
     this.taskArray.push(this.taskForm);
+  }
+
+  weekendValidator(control: FormControl) {
+    const form = control.parent
+    const selectedDate= new Date(form?.get('date')?.value);
+    const day = selectedDate.getDay()
+
+    const isWeekEnd = day === 0 || day === 6;
+    console.log(isWeekEnd)
+    return isWeekEnd ? { isWeekend: true } : null;
   }
 }
