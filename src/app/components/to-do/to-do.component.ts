@@ -80,6 +80,8 @@ export class ToDoComponent implements OnInit {
   }
 
   startEditing(index: number) {
+    const taskGroup = this.taskArray.at(index) as FormGroup;
+    this.taskForm.patchValue(taskGroup.value);
     this.editMode[index] = true;
   }
 
@@ -88,6 +90,13 @@ export class ToDoComponent implements OnInit {
     if (taskGroup.valid) {
       taskGroup.patchValue(this.taskForm.value);
       this.editMode[index] = false;
+      this.taskForm.reset()
     }
   }
+
+  getCurrentDate(): string {
+    const currentDate = new Date();
+    return currentDate.toISOString().split('T')[0];
+  }
+
 }
