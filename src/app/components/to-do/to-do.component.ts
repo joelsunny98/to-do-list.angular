@@ -38,14 +38,14 @@ export class ToDoComponent implements OnInit {
       task: ['', Validators.required],
       remarks: ['']
     });
-  } 
+  }
 
   /**
-   * Method to create a new form group for every task 
+   * Method to create a new form group for every task
    *
-   * @param date 
-   * @param task 
-   * @param remarks 
+   * @param date
+   * @param task
+   * @param remarks
    * @returns Form Group
    */
   createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
@@ -84,7 +84,10 @@ export class ToDoComponent implements OnInit {
   }
 
   finishEditing(index: number) {
-    this.taskArray.at(index).setValue(this.taskForm)
-    this.editMode[index] = false
+    const taskGroup = this.taskArray.at(index) as FormGroup;
+    if (taskGroup.valid) {
+      taskGroup.patchValue(this.taskForm.value);
+      this.editMode[index] = false;
+    }
   }
 }
