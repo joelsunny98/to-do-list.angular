@@ -7,18 +7,28 @@
     <div class="add-button-container">
       <button class="add-button" (click)="showForm = !showForm">
         <span *ngIf="!showForm">+</span>
-      </button>     
+      </button>
+    </div>
   </div>
-</div>
+
   <div *ngIf="showForm" class="form-container">
     <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
-      <div>
-        <input type="date" formControlName="date" required [min]="getCurrentDate()">
-        <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched">
-          <span class="error-message">Selected date falls on a weekend.</span>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Date:</label>
+          <input type="date" formControlName="date" required [min]="getCurrentDate()">
         </div>
-        <input type="text" placeholder="Task" formControlName="task" required>
-        <textarea formControlName="remarks" placeholder="Remarks"></textarea>
+        <div class="form-field">
+          <label>Task:</label>
+          <input type="text" placeholder="Task" formControlName="task" required>
+        </div>
+        <div class="form-field">
+          <label>Remarks:</label>
+          <textarea formControlName="remarks" placeholder="Remarks"></textarea>
+        </div>
+      </div>
+      <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
+        Selected date falls on a weekend.
       </div>
       <button type="submit">Add Task</button>
     </form>
