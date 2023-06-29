@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms';
-import { HOLIDAYS_ARRAY } from '../config/app.config';
 
 @Injectable({
   providedIn: 'root'
