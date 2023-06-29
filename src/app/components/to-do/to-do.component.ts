@@ -13,14 +13,16 @@ import { HolidayService } from 'src/app/services/holiday.service';
 
 })
 export class ToDoComponent implements OnInit {
-  fields: string[] = [];
-  model = {
-    date: Date,
-    task: '',
-    remarks: ''
-  };
   taskForm!: FormGroup;
   taskArray!: FormArray;
+  editMode: boolean[] = [];
+
+  months = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    // Add the rest of the months...
+  ];
+
 
   constructor(
     private readonly formbuilder: FormBuilder,
@@ -39,9 +41,25 @@ export class ToDoComponent implements OnInit {
    */
   buildForm() {
     this.taskForm = this.formbuilder.group({
-      date: [Date, Validators.required],
+      date: [Date, [Validators.required, this.weekendValidator]],
       task: ['', Validators.required],
       remarks: ['']
+    });
+  }
+
+  /**
+   * Method to create a new form group for every task
+   *
+   * @param date
+   * @param task
+   * @param remarks
+   * @returns Form Group
+   */
+  createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
+    return this.formbuilder.group({
+      date: [date, [Validators.required, this.weekendValidator]],
+      task: [task, Validators.required],
+      remarks: remarks
     });
   }
 
@@ -49,6 +67,44 @@ export class ToDoComponent implements OnInit {
    * Method to add a new Task to FormArray
    */
   addFormGroup() {
-    this.taskArray.push(this.taskForm);
+    if (this.taskForm.valid) {
+      const { date, task, remarks } = this.taskForm.value;
+      const newTaskFormGroup = this.createNewFormGroup(date, task, remarks);
+      this.taskArray.push(newTaskFormGroup);
+      this.taskForm.reset();
+
+      this.editMode = Array(this.taskArray.length).fill(false);
+    }
   }
+
+  weekendValidator(control: FormControl) {
+    const form = control.parent
+    const selectedDate= new Date(form?.get('date')?.value);
+    const day = selectedDate.getDay()
+
+    const isWeekEnd = day === 0 || day === 6;
+    return isWeekEnd ? { isWeekend: true } : null;
+  }
+
+  startEditing(index: number) {
+    this.editMode = Array(this.taskArray.length).fill(false);
+    const taskGroup = this.taskArray.at(index) as FormGroup;
+    this.taskForm.patchValue(taskGroup.value);
+    this.editMode[index] = true;
+  }
+
+  finishEditing(index: number) {
+    const taskGroup = this.taskArray.at(index) as FormGroup;
+    if (taskGroup.valid) {
+      taskGroup.patchValue(this.taskForm.value);
+      this.editMode[index] = false;
+      this.taskForm.reset()
+    }
+  }
+
+  getCurrentDate(): string {
+    const currentDate = new Date();
+    return currentDate.toISOString().split('T')[0];
+  }
+
 }
