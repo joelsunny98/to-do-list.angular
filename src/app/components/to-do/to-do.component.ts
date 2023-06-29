@@ -15,6 +15,7 @@ import { HolidayService } from 'src/app/services/holiday.service';
 export class ToDoComponent implements OnInit {
   taskForm!: FormGroup;
   taskArray!: FormArray;
+  holidayFormArray!: FormArray ;
   editMode: boolean[] = [];
 
   months = [
@@ -25,22 +26,36 @@ export class ToDoComponent implements OnInit {
 
 
   constructor(
-    private readonly formbuilder: FormBuilder,
+    private readonly formBuilder: FormBuilder,
     private readonly holidayService: HolidayService
   ) {
-    this.taskArray = this.formbuilder.array([]);
+    this.taskArray = this.formBuilder.array([]);
+    this.holidayFormArray = this.formBuilder.array([]);
   }
 
   ngOnInit(): void {
-    this.taskArray = this.holidayService.getFormArray();
+    this.taskArray = this.getHolidays();
     this.buildForm();
+  }
+
+  getHolidays() {
+    for (const holiday of this.holidayService.holidayArray) {
+      const formGroup = this.formBuilder.group({
+        date: holiday.date,
+        task: holiday.task,
+        remarks: holiday.remarks
+      });
+      this.holidayFormArray.push(formGroup)
+    }
+
+    return this.holidayFormArray;
   }
 
   /**
    * Method to build the Forms
    */
   buildForm() {
-    this.taskForm = this.formbuilder.group({
+    this.taskForm = this.formBuilder.group({
       date: [Date, [Validators.required, this.weekendValidator]],
       task: ['', Validators.required],
       remarks: ['']
@@ -56,7 +71,7 @@ export class ToDoComponent implements OnInit {
    * @returns Form Group
    */
   createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
-    return this.formbuilder.group({
+    return this.formBuilder.group({
       date: [date, [Validators.required, this.weekendValidator]],
       task: [task, Validators.required],
       remarks: remarks
