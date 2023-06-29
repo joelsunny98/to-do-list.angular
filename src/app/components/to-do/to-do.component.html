@@ -15,15 +15,15 @@
       <div class="form-row">
         <div class="form-field">
           <label>Date:</label>
-          <input type="date" formControlName="date" required [min]="getCurrentDate()">
+          <input id="to-do-list-date-add" type="date" formControlName="date" required [min]="getCurrentDate()">
         </div>
         <div class="form-field">
           <label>Task:</label>
-          <input type="text" placeholder="Task" formControlName="task" required>
+          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" required>
         </div>
         <div class="form-field">
           <label>Remarks:</label>
-          <textarea formControlName="remarks" placeholder="Remarks"></textarea>
+          <textarea id="to-do-list-remarks-add" formControlName="remarks" placeholder="Remarks"></textarea>
         </div>
       </div>
       <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
