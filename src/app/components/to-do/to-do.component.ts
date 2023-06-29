@@ -58,7 +58,6 @@ export class ToDoComponent implements OnInit {
    */
   onDropDownChange(event: Event) {
     this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
-    console.log(this.selectedMonth)
   }
 
   /**
