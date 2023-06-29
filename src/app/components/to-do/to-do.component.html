@@ -1,36 +1,48 @@
-<select (change)="onDropDownChange($event)">
-  <option *ngFor="let options of monthService.months" [value]="options.value">{{ options.label }}</option>
-</select>
+<div class="container">
+  <div class="header-container">
+    <h1>TO DO LIST</h1>
+    <select (change)="onDropDownChange($event)">
+      <option *ngFor="let options of monthService.months" [value]="options.value">{{ options.label }}</option>
+    </select>
+    <div class="add-button-container">
+      <button class="add-button" (click)="showForm = !showForm">
+        <span *ngIf="!showForm">+</span>
+      </button>
+      <div *ngIf="showForm" class="form-container">
+        <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
+          <div>
+            <input type="date" formControlName="date" required [min]="getCurrentDate()">
+            <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched">
+              <span class="error-message">Selected date falls on a weekend.</span>
+            </div>
+            <input type="text" placeholder="Task" formControlName="task" required>
+            <textarea formControlName="remarks" placeholder="Remarks"></textarea>
+          </div>
+          <button type="submit">Add Task</button>
+        </form>
+      </div>
+    </div>
+  </div>
+ 
 
-<div *ngFor="let taskGroup of taskArray.controls; let i = index">
-  <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
-    <ng-container *ngIf="!editMode[i]">
-      <label>{{ taskGroup.get('date')?.value | date }}</label>
-      <label>{{ taskGroup.get('task')?.value }}</label>
-      <label>{{ taskGroup.get('remarks')?.value }}</label>
-      <button (click)="startEditing(i)">Edit</button>
-    </ng-container>
-    <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
-      <input type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date" >
-      <input type="text" [value]="taskGroup.get('task')?.value" formControlName="task" >
-      <input type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks" >
-      <button (click)="finishEditing(i)">Save</button>
-    </ng-container>
+  <div *ngFor="let taskGroup of taskArray.controls; let i = index">
+    <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
+      <ng-container *ngIf="!editMode[i]">
+        <div class="task-item">
+          <label>{{ taskGroup.get('date')?.value | date }}</label>
+          <label>{{ taskGroup.get('task')?.value }}</label>
+          <label>{{ taskGroup.get('remarks')?.value }}</label>
+          <button (click)="startEditing(i)">Edit</button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
+        <div class="task-item">
+          <input type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date">
+          <input type="text" [value]="taskGroup.get('task')?.value" formControlName="task">
+          <input type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks">
+          <button (click)="finishEditing(i)">Save</button>
+        </div>
+      </ng-container>
+    </div>
   </div>
 </div>
-
-<form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
-  <div>
-    <label>Date:</label>
-    <input type="date" formControlName="date" required [min]="getCurrentDate()">
-  </div>
-  <div>
-    <label>Task:</label>
-    <input type="text" formControlName="task" required>
-  </div>
-  <div>
-    <label>Remarks:</label>
-    <textarea formControlName="remarks"></textarea>
-  </div>
-  <button type="submit">Add Task</button>
-</form>
