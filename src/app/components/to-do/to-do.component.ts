@@ -17,6 +17,13 @@ export class ToDoComponent implements OnInit {
   taskArray!: FormArray;
   editMode: boolean[] = [];
 
+  months = [
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    // Add the rest of the months...
+  ];
+
+
   constructor(
     private readonly formbuilder: FormBuilder,
     private readonly holidayService: HolidayService
@@ -80,6 +87,7 @@ export class ToDoComponent implements OnInit {
   }
 
   startEditing(index: number) {
+    this.editMode = Array(this.taskArray.length).fill(false);
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
     this.editMode[index] = true;
