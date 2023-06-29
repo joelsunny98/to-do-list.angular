@@ -1,5 +1,9 @@
+<select (change)="onDropDownChange($event)">
+  <option *ngFor="let options of monthService.months" [value]="options.value">{{ options.label }}</option>
+</select>
+
 <div *ngFor="let taskGroup of taskArray.controls; let i = index">
-  <div>
+  <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
     <ng-container *ngIf="!editMode[i]">
       <label>{{ taskGroup.get('date')?.value | date }}</label>
       <label>{{ taskGroup.get('task')?.value }}</label>
