@@ -102,7 +102,8 @@ export class ToDoComponent implements OnInit {
     return this.formBuilder.group({
       date: [date, [Validators.required, this.weekendValidator]],
       task: [task, Validators.required],
-      remarks: remarks
+      remarks: remarks,
+      isHoliday: false
     });
   }
 
