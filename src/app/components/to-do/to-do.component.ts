@@ -35,20 +35,36 @@ export class ToDoComponent implements OnInit {
     this.buildForm();
   }
 
+  /**
+   * Method to check to sort task according to the month.
+   *
+   * @param date
+   * @returns boolean
+   */
   isThisMonth(date: string) {
     const selectedDate = new Date(date);
-    if (selectedDate.getMonth() == this.selectedMonth) {
+    if (selectedDate.getMonth() + 1 == this.selectedMonth) {
       return true;
     } else {
       return false
     }
   }
 
+  /**
+   * Method to get the drop down value of the month. 
+   *
+   * @param event 
+   */
   onDropDownChange(event: Event) {
     this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
     console.log(this.selectedMonth)
   }
 
+  /**
+   * Method to generate form array with Holidays.
+   * 
+   * @returns Holiday Form Array
+   */
   getHolidays() {
     for (const holiday of this.holidayService.holidayArray) {
       const formGroup = this.formBuilder.group({
@@ -103,6 +119,12 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  /**
+   * Method to Validate is selected Date is a week day. 
+   *
+   * @param control 
+   * @returns error
+   */
   weekendValidator(control: FormControl) {
     const form = control.parent
     const selectedDate= new Date(form?.get('date')?.value);
@@ -112,6 +134,11 @@ export class ToDoComponent implements OnInit {
     return isWeekEnd ? { isWeekend: true } : null;
   }
 
+  /**
+   * Method to patch value to edit form and start editing Mode.
+   * 
+   * @param index 
+   */
   startEditing(index: number) {
     this.editMode = Array(this.taskArray.length).fill(false);
     const taskGroup = this.taskArray.at(index) as FormGroup;
@@ -119,6 +146,11 @@ export class ToDoComponent implements OnInit {
     this.editMode[index] = true;
   }
 
+  /**
+   * Method to update the edited values and end Editing mode. 
+   *
+   * @param index
+   */
   finishEditing(index: number) {
     const taskGroup = this.taskArray.at(index) as FormGroup;
     if (taskGroup.valid) {
@@ -128,6 +160,11 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  /**
+   * Method to get current Date.
+   *
+   * @returns Date
+   */
   getCurrentDate(): string {
     const currentDate = new Date();
     return currentDate.toISOString().split('T')[0];
