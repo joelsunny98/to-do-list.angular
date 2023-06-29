@@ -18,6 +18,7 @@ export class ToDoComponent implements OnInit {
   taskArray!: FormArray;
   holidayFormArray!: FormArray ;
   editMode: boolean[] = [];
+  selectedMonth: number = 1;
 
 
   constructor(
@@ -32,6 +33,20 @@ export class ToDoComponent implements OnInit {
   ngOnInit(): void {
     this.taskArray = this.getHolidays();
     this.buildForm();
+  }
+
+  isThisMonth(date: string) {
+    const selectedDate = new Date(date);
+    if (selectedDate.getMonth() == this.selectedMonth) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  onDropDownChange(event: Event) {
+    this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
+    console.log(this.selectedMonth)
   }
 
   getHolidays() {
