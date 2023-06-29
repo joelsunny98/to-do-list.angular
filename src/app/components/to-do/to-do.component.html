@@ -5,8 +5,7 @@
       <option *ngFor="let options of monthService.months" [value]="options.value">{{ options.label }}</option>
     </select>
     <div class="add-button-container">
-      <button class="add-button" (click)="showForm = !showForm">
-        <span *ngIf="!showForm">+</span>
+      <button  *ngIf="!showForm" class="add-button pi pi-plus" (click)="showForm = !showForm">+ Add Task
       </button>
     </div>
   </div>
