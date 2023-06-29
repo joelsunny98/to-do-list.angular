@@ -7,24 +7,24 @@
     <div class="add-button-container">
       <button class="add-button" (click)="showForm = !showForm">
         <span *ngIf="!showForm">+</span>
-      </button>
-      <div *ngIf="showForm" class="form-container">
-        <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
-          <div>
-            <input type="date" formControlName="date" required [min]="getCurrentDate()">
-            <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched">
-              <span class="error-message">Selected date falls on a weekend.</span>
-            </div>
-            <input type="text" placeholder="Task" formControlName="task" required>
-            <textarea formControlName="remarks" placeholder="Remarks"></textarea>
-          </div>
-          <button type="submit">Add Task</button>
-        </form>
-      </div>
-    </div>
+      </button>     
   </div>
- 
+</div>
+  <div *ngIf="showForm" class="form-container">
+    <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
+      <div>
+        <input type="date" formControlName="date" required [min]="getCurrentDate()">
+        <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched">
+          <span class="error-message">Selected date falls on a weekend.</span>
+        </div>
+        <input type="text" placeholder="Task" formControlName="task" required>
+        <textarea formControlName="remarks" placeholder="Remarks"></textarea>
+      </div>
+      <button type="submit">Add Task</button>
+    </form>
+  </div>
 
+ <div class="task-container">
   <div *ngFor="let taskGroup of taskArray.controls; let i = index">
     <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
       <ng-container *ngIf="!editMode[i]">
@@ -45,4 +45,5 @@
       </ng-container>
     </div>
   </div>
+</div>
 </div>
