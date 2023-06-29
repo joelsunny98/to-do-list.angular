@@ -73,21 +73,4 @@ export class HolidayService {
       remarks: new FormControl('')
     }
   ]; ;
-
-  // constructor(private readonly formBuilder: FormBuilder) {
-  //   this.holidayFormArray = this.formBuilder.array([])
-  // }
-
-  // getFormArray() {
-  //   for (const holiday of HOLIDAYS_ARRAY) {
-  //     const formGroup = this.formBuilder.group({
-  //       date: holiday.date,
-  //       task: holiday.task,
-  //       remarks: holiday.remarks
-  //     });
-  //     this.holidayFormArray.push(formGroup)
-  //   }
-
-  //   return this.holidayFormArray;
-  // }
 }

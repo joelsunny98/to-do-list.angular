@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HolidayService } from 'src/app/services/holiday.service';
+import { MonthService } from 'src/app/services/month.service';
 
 @Component({
   selector: 'app-to-do',
@@ -18,16 +19,11 @@ export class ToDoComponent implements OnInit {
   holidayFormArray!: FormArray ;
   editMode: boolean[] = [];
 
-  months = [
-    { value: 1, label: 'January' },
-    { value: 2, label: 'February' },
-    // Add the rest of the months...
-  ];
-
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly holidayService: HolidayService
+    private readonly holidayService: HolidayService,
+    public monthService: MonthService
   ) {
     this.taskArray = this.formBuilder.array([]);
     this.holidayFormArray = this.formBuilder.array([]);
