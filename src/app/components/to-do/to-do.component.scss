@@ -1,90 +1,132 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+
+h1 {
+  margin-right: 10px;
+}
+
+select {
+  padding: 5px;
+  border-radius: 4px;
+}
+
+ .task-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.task-item label {
+  margin-right: 10px;
+}
+
+.task-item input[type="date"],
+.task-item input[type="text"] {
+  margin-right: 10px;
+}
+
+.task-item button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.task-item button:hover {
+  background-color: #45a049;
+}
+
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .calendar {
-    margin-bottom: 20px;
-    /* Calendar styling goes here */
-  }
-  
-  .table {
-    margin-bottom: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  .add-form {
-    padding: 20px;
-    background-color: #f2f2f2;
-  }
-  
-  form {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-gap: 10px;
-    align-items: center;
-  }
-  
-  label {
-    font-weight: bold;
-  }
+  width: 100%;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin: 0 auto;
+  text-align: center;
+}
 
-  .form-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-  }
 
-  .form-inline input {
-    vertical-align: middle;
-    margin: 5px 10px 5px 0;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-  }
 
-  .form-inline button {
-    padding: 10px 20px;
-    background-color: dodgerblue;
-    border: 1px solid #ddd;
-    color: white;
-  }
-  
-  .form-inline button:hover {
-    background-color: royalblue;
-  }
-  
-  button {
-    padding: 8px 12px;
-    background-color: #2196f3;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button i {
-    margin-right: 5px;
-  }
-  
+.add-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer; 
+}
+
+.add-button  {
+  padding: 5px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.form-container div {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-container label {
+  width: 100px;
+}
+
+.form-container input,
+.form-container textarea {
+  flex: 1;
+  margin-left: 10px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-container button[type="submit"] {
+  margin-top: 10px;
+}
+
+
+label {
+  margin-bottom: 5px;
+}
+
+input[type="date"],
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

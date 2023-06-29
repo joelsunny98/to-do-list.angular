@@ -19,6 +19,7 @@ export class ToDoComponent implements OnInit {
   holidayFormArray!: FormArray ;
   editMode: boolean[] = [];
   selectedMonth: number = new Date().getMonth()+1;
+  showForm = false;
 
 
   constructor(
@@ -117,6 +118,7 @@ export class ToDoComponent implements OnInit {
 
       this.editMode = Array(this.taskArray.length).fill(false);
     }
+    this.showForm = false;
   }
 
   /**
