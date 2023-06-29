@@ -23,6 +23,9 @@
   <div>
     <label>Date:</label>
     <input type="date" formControlName="date" required [min]="getCurrentDate()">
+    <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched">
+      <span>Selected date falls on a weekend.</span>
+    </div>
   </div>
   <div>
     <label>Task:</label>
