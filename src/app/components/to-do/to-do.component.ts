@@ -18,7 +18,7 @@ export class ToDoComponent implements OnInit {
   taskArray!: FormArray;
   holidayFormArray!: FormArray ;
   editMode: boolean[] = [];
-  selectedMonth: number = 1;
+  selectedMonth: number = new Date().getMonth()+1;
 
 
   constructor(
