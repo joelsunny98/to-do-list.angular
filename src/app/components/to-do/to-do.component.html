@@ -32,7 +32,10 @@
           <label>{{ taskGroup.get('date')?.value | date }}</label>
           <label>{{ taskGroup.get('task')?.value }}</label>
           <label>{{ taskGroup.get('remarks')?.value }}</label>
-          <button (click)="startEditing(i)">Edit</button>
+          <div *ngIf="taskGroup.get('isHoliday')?.value == false">
+
+            <button (click)="startEditing(i)">Edit</button>
+          </div>
         </div>
       </ng-container>
       <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
