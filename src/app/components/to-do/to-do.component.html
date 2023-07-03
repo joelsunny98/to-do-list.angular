@@ -32,16 +32,16 @@
             formControlName="remarks" placeholder="Remarks">
           <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
           <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
-            {{ taskForm.get('date')?.errors | validationError }}
+            {{ taskForm.get('date')?.errors | validationError:'date' }}
           </div>
           <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
-            {{ taskForm.get('task')?.errors | validationError }}
+            {{ taskForm.get('task')?.errors | validationError:'task' }}
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+
 
   <div *ngIf="isTaskFormVisible" class="form-container">
     <!-- Form goes here -->
@@ -52,20 +52,20 @@
             [min]="currentDate | date:'yyyy-MM-dd'">
         </div>
         <div *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched" class="error-message">
-          {{ taskForm.get('date')?.errors | validationError }}
+          {{ taskForm.get('date')?.errors | validationError:'date' }}
         </div>
         <div class="form-field">
           <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" [maxlength]="51">
         </div>
         <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
-          {{ taskForm.get('task')?.errors | validationError }}
+          {{ taskForm.get('task')?.errors | validationError:'task' }}
         </div>
         <div class="form-field">
           <textarea id="to-do-list-remarks-add" formControlName="remarks" placeholder="Remarks"></textarea>
         </div>
       </div>
       <button type="submit" [disabled]="!taskForm.valid">Add Task</button>
-      <button type="button" class="close-button">Close</button>
+      <button type="reset" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
 </div>
