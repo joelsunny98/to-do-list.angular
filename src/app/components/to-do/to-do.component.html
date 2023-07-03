@@ -5,14 +5,13 @@
       <option *ngFor="let options of holidayService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
     <div class="add-button-container">
-      <button *ngIf="!isTaskFormVisible" class="add-button pi pi-plus"
+      <button *ngIf="!isTaskFormVisible" class="add-button"
         (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
   </div>
 
   <div class="task-container">
-    <!-- Task grid goes here -->
     <div *ngFor="let taskGroup of taskArray.controls; let i = index">
       <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
         <div class="task-item" *ngIf="!editMode[i]">

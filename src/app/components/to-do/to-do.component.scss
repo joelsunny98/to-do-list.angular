@@ -12,6 +12,16 @@ body {
   text-align: center;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  margin: 0 auto;
+  text-align: center;
+}
+
 h1 {
   margin-right: 10px;
 }
@@ -45,31 +55,18 @@ select {
   padding: 8px 12px;
   cursor: pointer;
   margin-top: 10px;
-  
 }
 
 .task-item button:hover {
   background-color: #45a049;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0 auto;
-  text-align: center;
-}
 
 .add-button {
   background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
-}
-
-.add-button {
   padding: 5px;
   border-radius: 4px;
   margin-left: 10px;
@@ -84,16 +81,21 @@ select {
 .task-container {
   justify-content: center;
   padding: 10px;
-  margin-top: 10px;
+  margin-top: 20px;
+  width: auto;
 }
 
 .edit-button {
   background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 8px 12px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  padding: 2px;
+  border-radius: 2px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 4px;
 }
 
 .edit-button:hover {
@@ -189,6 +191,9 @@ button[type="submit"]:not(:disabled) {
 button[type="save"] {
   background-color: #ccc;
   color: #666666;
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 4px;
 }
 
 button[type="save"]:disabled {
