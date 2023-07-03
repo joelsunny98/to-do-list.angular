@@ -3,12 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HolidayService} from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common';
+import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
 
 @Component({
   selector: 'app-to-do',
   standalone: true,
   imports: [CommonModule,
-    ReactiveFormsModule],
+    ReactiveFormsModule,
+  ValidationErrorPipe],
   templateUrl: './to-do.component.html',
   styleUrls: ['./to-do.component.scss'],
   providers: [DatePipe]
