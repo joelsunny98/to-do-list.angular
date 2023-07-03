@@ -1,9 +1,12 @@
 <div class="container">
   <h1>TO DO LIST</h1>
   <div class="header-container">
-    <select (change)="onDropDownChange($event)">
+    <select (change)="onDropDownChange($event)" [(ngModel)]="selectedMonth">
+        <option value=0 disabled hidden>Select a Month</option>
       <option *ngFor="let options of holidayService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
+    <button (click)="selectedMonth = 0">Clear</button>
+
     <div class="add-button-container">
       <button *ngIf="!isTaskFormVisible" class="add-button" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>

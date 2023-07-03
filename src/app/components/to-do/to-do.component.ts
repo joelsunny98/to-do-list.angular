@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { HolidayService } from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
@@ -11,7 +11,8 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ValidationErrorPipe
+    ValidationErrorPipe,
+    FormsModule
   ],
   templateUrl: './to-do.component.html',
   styleUrls: ['./to-do.component.scss'],
