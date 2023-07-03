@@ -126,18 +126,14 @@ export class ToDoComponent implements OnInit {
    * @returns error
    */
   weekendValidator(control: FormControl) {
-    const form = control.parent
-    const selectedDate = new Date(form?.get('date')?.value);
+    const selectedDate = new Date(control.value);
     const day = selectedDate.getDay()
-
     const isWeekEnd = day === 0 || day === 6;
     return isWeekEnd ? { isWeekend: true } : null;
   }
 
   isHolidayValidator(control: FormControl) {
-    const form = control.parent;
-    const selectedDate = new Date(form?.get('date')?.value);
-
+    const selectedDate = new Date(control.value);
     const invalid = this.taskArray.controls.some((holiday: AbstractControl) => {
       const holidayDate = new Date(holiday.get('date')?.value);
       return holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value;
