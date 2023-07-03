@@ -5,7 +5,8 @@
       <option *ngFor="let options of holidayService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
     <div class="add-button-container">
-      <button  *ngIf="!isTaskFormVisible" class="add-button pi pi-plus" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
+      <button *ngIf="!isTaskFormVisible" class="add-button pi pi-plus"
+        (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
   </div>
@@ -15,18 +16,17 @@
       <div class="form-row">
         <div class="form-field">
           <label>Date:</label>
-          <input id="to-do-list-date-add" type="date" formControlName="date" required [min]="getCurrentDate()">
+          <input id="to-do-list-date-add" type="date" formControlName="date" required [min]="currentDate | date:'yyyy-MM-dd'">
         </div>
         <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
-          Selected date falls on a weekend.
+          {{ taskForm.get('date')?.errors | validationError }}
         </div>
         <div class="form-field">
-          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" [maxlength]="50">  
+          <label>Task:</label>
+          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" [maxlength]="50">
         </div>
         <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
-          {{ taskForm.get('task')?.errors?.['required'] ? 'Task is required.' :
-             (taskForm.get('task')?.errors?.['minlength'] ? 'Task must be at least 10 characters long.' :
-             (taskForm.get('task')?.errors?.['maxlength'] ? 'Task cannot exceed 50 characters.' : '')) }}
+          {{ taskForm.get('task')?.errors | validationError }}
         </div>
         <div class="form-field">
           <label>Remarks:</label>
@@ -34,43 +34,47 @@
         </div>
       </div>
       <button type="submit" [disabled]="!taskForm.valid">Add Task</button>
+      <button type="reset" class="reset-button">Reset</button>
     </form>
-    
-    
+
+
   </div>
 
- <div class="task-container">
-  <div *ngFor="let taskGroup of taskArray.controls; let i = index">
-    <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
-      <ng-container *ngIf="!editMode[i]">
-        <div class="task-item">
-          <label>{{ taskGroup.get('date')?.value | date }}</label>
-          <label>{{ taskGroup.get('task')?.value }}</label>
-          <label>{{ taskGroup.get('remarks')?.value }}</label>
-          <div *ngIf="taskGroup.get('isHoliday')?.value == false">
+  <div class="task-container">
+    <div *ngFor="let taskGroup of taskArray.controls; let i = index">
+      <div *ngIf="isThisMonth(taskGroup.get('date')?.value)">
+        <ng-container *ngIf="!editMode[i]">
+          <div class="task-item">
+            <label>{{ taskGroup.get('date')?.value | date }}</label>
+            <label>{{ taskGroup.get('task')?.value }}</label>
+            <label>{{ taskGroup.get('remarks')?.value }}</label>
+            <div *ngIf="taskGroup.get('isHoliday')?.value == false">
 
-            <button (click)="startEditing(i)">Edit</button>
+              <button (click)="startEditing(i)">Edit</button>
+            </div>
           </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
-        <div class="task-item">
-          <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date" placeholder="Date">
-          <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task')?.value" formControlName="task" placeholder="Task">
-          <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks" placeholder="Remarks">
-          <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
-        </div>
-        <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
-          Selected date falls on a weekend.
-        </div>
-        <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
-          {{ taskForm.get('task')?.errors?.['required'] ? 'Task is required.' :
-             (taskForm.get('task')?.errors?.['minlength'] ? 'Task must be at least 10 characters long.' :
-             (taskForm.get('task')?.errors?.['maxlength'] ? 'Task cannot exceed 50 characters.' : '')) }}
-        </div>
-      </ng-container>
-      
+        </ng-container>
+        <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
+          <div class="task-item">
+            <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date')?.value | date"
+              formControlName="date" placeholder="Date">
+            <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task')?.value" formControlName="task"
+              placeholder="Task">
+            <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks')?.value"
+              formControlName="remarks" placeholder="Remarks">
+            <button type="reset" class="reset-button">Reset</button>
+            <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
+          </div>
+          <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched"
+            class="error-message">
+            {{ taskForm.get('date')?.errors | validationError }}
+          </div>
+          <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
+            {{ taskForm.get('task')?.errors | validationError }}
+          </div>
+        </ng-container>
+
+      </div>
     </div>
   </div>
-</div>
 </div>
