@@ -34,6 +34,7 @@
         </div>
       </div>
       <button type="submit" [disabled]="!taskForm.valid">Add Task</button>
+      <button type="reset" class="reset-button">Reset</button>
     </form>
 
 
@@ -61,6 +62,7 @@
               placeholder="Task">
             <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks')?.value"
               formControlName="remarks" placeholder="Remarks">
+            <button type="reset" class="reset-button">Reset</button>
             <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
           </div>
           <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched"
