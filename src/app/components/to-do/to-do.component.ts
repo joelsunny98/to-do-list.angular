@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HolidayService } from 'src/app/services/holiday.service';
-import { MonthService } from 'src/app/services/month.service';
+import { HolidayService} from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -20,14 +19,13 @@ export class ToDoComponent implements OnInit {
   holidayFormArray!: FormArray ;
   editMode: boolean[] = [];
   selectedMonth: number = new Date().getMonth()+1;
-  showForm = false;
+  isTaskFormVisible = false;
 
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly holidayService: HolidayService,
-    private readonly datePipe : DatePipe,
-    public monthService: MonthService
+    private readonly datePipe : DatePipe
   ) {
     this.taskArray = this.formBuilder.array([]);
     this.holidayFormArray = this.formBuilder.array([]);
@@ -75,33 +73,34 @@ export class ToDoComponent implements OnInit {
     return this.holidayFormArray;
   }
 
-  /**
-   * Method to build the Forms
-   */
-  buildForm() {
-    this.taskForm = this.formBuilder.group({
-      date: [Date, [Validators.required, this.weekendValidator]],
-      task: ['', Validators.required],
-      remarks: ['']
-    });
-  }
+/**
+ * Method to build the Forms
+ */
+buildForm() {
+  this.taskForm = this.formBuilder.group({
+    date: [Date, [Validators.required, this.weekendValidator]],
+    task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
+    remarks: ['']
+  });
+}
 
-  /**
-   * Method to create a new form group for every task
-   *
-   * @param date
-   * @param task
-   * @param remarks
-   * @returns Form Group
-   */
-  createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
-    return this.formBuilder.group({
-      date: [date, [Validators.required, this.weekendValidator]],
-      task: [task, Validators.required],
-      remarks: remarks,
-      isHoliday: false
-    });
-  }
+/**
+ * Method to create a new form group for every task
+ *
+ * @param date
+ * @param task
+ * @param remarks
+ * @returns Form Group
+ */
+createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
+  return this.formBuilder.group({
+    date: [date, [Validators.required, this.weekendValidator]],
+    task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
+    remarks: remarks,
+    isHoliday: false
+  });
+}
+
 
   /**
    * Method to add a new Task to FormArray
@@ -115,7 +114,7 @@ export class ToDoComponent implements OnInit {
 
       this.editMode = Array(this.taskArray.length).fill(false);
     }
-    this.showForm = false;
+    this.isTaskFormVisible = false;
   }
 
   /**
