@@ -176,4 +176,12 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  /**
+ * Method to close the task form and reset the entries
+ *
+ */
+  closeForm() {
+    this.taskForm.reset();
+    this.isTaskFormVisible = false;
+  }
 }
