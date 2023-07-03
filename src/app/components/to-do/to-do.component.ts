@@ -18,7 +18,7 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
   providers: [DatePipe]
 })
 export class ToDoComponent implements OnInit {
-  taskForm!: FormGroup ;
+  taskForm: FormGroup;
   taskArray: FormArray;
   holidayFormArray: FormArray;
   editMode: boolean[] = [];
