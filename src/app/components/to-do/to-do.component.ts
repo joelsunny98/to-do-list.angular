@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HolidayService } from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
@@ -68,6 +68,7 @@ export class ToDoComponent implements OnInit {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,
+        isHoliday: true
       });
       this.holidayFormArray.push(formGroup)
     }
@@ -80,7 +81,7 @@ export class ToDoComponent implements OnInit {
    */
   buildForm() {
     this.taskForm = this.formBuilder.group({
-      date: [Date, [Validators.required, this.weekendValidator]],
+      date: [Date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
       task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
       remarks: ['']
     });
@@ -96,7 +97,7 @@ export class ToDoComponent implements OnInit {
    */
   createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
     return this.formBuilder.group({
-      date: [date, [Validators.required, this.weekendValidator]],
+      date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
       task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
       remarks: remarks,
       isHoliday: false
@@ -128,10 +129,27 @@ export class ToDoComponent implements OnInit {
   weekendValidator(control: FormControl) {
     const form = control.parent
     const selectedDate = new Date(form?.get('date')?.value);
+    const selectedDate = new Date(form?.get('date')?.value);
     const day = selectedDate.getDay()
 
     const isWeekEnd = day === 0 || day === 6;
     return isWeekEnd ? { isWeekend: true } : null;
+  }
+
+  isHolidayValidator(control: FormControl) {
+    const form = control.parent;
+    const selectedDate = new Date(form?.get('date')?.value);
+    var invalid = 0
+
+    this.taskArray.controls.forEach((holiday: AbstractControl) => {
+      const holidayDate = new Date(holiday.get('date')?.value);
+
+      if (holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value) {
+        console.log('pass')
+        invalid += 1
+      }
+    })
+    return invalid > 0 ? { isHoliday: true } : null;
   }
 
   /**

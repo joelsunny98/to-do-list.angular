@@ -22,6 +22,9 @@ export class ValidationErrorPipe implements PipeTransform {
     if (errors['maxlength']) {
       return 'This field cannot exceed ' + errors['maxlength'].requiredLength + ' characters.';
     }
+    if (errors['isHoliday']) {
+      return 'This date is a Holiday';
+    }
     return '';
   }
 }
