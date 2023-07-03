@@ -81,8 +81,8 @@ export class ToDoComponent implements OnInit {
   buildForm() {
     this.taskForm = this.formBuilder.group({
       date: [Date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
-      task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-      remarks: ['']
+      task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
+      remarks: ['', Validators.maxLength(50)]
     });
   }
 
