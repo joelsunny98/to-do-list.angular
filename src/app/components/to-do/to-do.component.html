@@ -5,7 +5,7 @@
       <option *ngFor="let options of holidayService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
     <div class="add-button-container">
-      <button *ngIf="!isTaskFormVisible" class="add-button pi pi-plus"
+      <button *ngIf="!isTaskFormVisible" class="add-button"
         (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
