@@ -136,17 +136,12 @@ export class ToDoComponent implements OnInit {
   isHolidayValidator(control: FormControl) {
     const form = control.parent;
     const selectedDate = new Date(form?.get('date')?.value);
-    var invalid = 0
 
-    this.taskArray.controls.forEach((holiday: AbstractControl) => {
+    const invalid = this.taskArray.controls.some((holiday: AbstractControl) => {
       const holidayDate = new Date(holiday.get('date')?.value);
-
-      if (holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value) {
-        console.log('pass')
-        invalid += 1
-      }
+      return holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value;
     })
-    return invalid > 0 ? { isHoliday: true } : null;
+    return invalid ? { isHoliday: true} : null
   }
 
   /**
