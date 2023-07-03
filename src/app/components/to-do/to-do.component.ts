@@ -8,22 +8,23 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
 @Component({
   selector: 'app-to-do',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     ReactiveFormsModule,
-    ValidationErrorPipe],
+    ValidationErrorPipe
+  ],
   templateUrl: './to-do.component.html',
   styleUrls: ['./to-do.component.scss'],
   providers: [DatePipe]
 })
 export class ToDoComponent implements OnInit {
-  taskForm!: FormGroup;
-  taskArray!: FormArray;
-  holidayFormArray!: FormArray;
+  taskForm!: FormGroup ;
+  taskArray: FormArray;
+  holidayFormArray: FormArray;
   editMode: boolean[] = [];
   selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
-
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -170,4 +171,12 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  /**
+ * Method to close the task form and reset the entries
+ *
+ */
+  closeForm() {
+    this.taskForm.reset();
+    this.isTaskFormVisible = false;
+  }
 }
