@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { IHoliday } from '../model/holiday';
+import { IMonth } from '../model/month';
 @Injectable({
   providedIn: 'root'
 })
 export class HolidayService {
 
-  holidayArray = [
+  holidayArray: IHoliday[] = [
     {
       date: new Date('2023-01-01'),
       task: 'New Year',
@@ -59,7 +61,7 @@ export class HolidayService {
     }
   ];
 
-  monthsArray = [
+  monthsArray: IMonth[] = [
     { value: 1, label: 'January' },
     { value: 2, label: 'February' },
     { value: 3, label: 'March' },
