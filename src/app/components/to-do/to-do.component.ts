@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HolidayService } from 'src/app/services/holiday.service';
-
+import { HolidayService} from 'src/app/services/holiday.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-to-do',
@@ -10,8 +10,8 @@ import { HolidayService } from 'src/app/services/holiday.service';
   imports: [CommonModule,
     ReactiveFormsModule],
   templateUrl: './to-do.component.html',
-  styleUrls: ['./to-do.component.scss']
-
+  styleUrls: ['./to-do.component.scss'],
+  providers: [DatePipe]
 })
 export class ToDoComponent implements OnInit {
   taskForm!: FormGroup;
@@ -24,7 +24,8 @@ export class ToDoComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    public readonly holidayService: HolidayService
+    private readonly holidayService: HolidayService,
+    private readonly datePipe : DatePipe
   ) {
     this.taskArray = this.formBuilder.array([]);
     this.holidayFormArray = this.formBuilder.array([]);
@@ -41,19 +42,13 @@ export class ToDoComponent implements OnInit {
    * @param date
    * @returns boolean
    */
-  isThisMonth(date: string) {
-    const selectedDate = new Date(date);
-    if (selectedDate.getMonth() + 1 == this.selectedMonth) {
-      return true;
-    } else {
-      return false
-    }
-  }
+  isThisMonth = (date: string) => new Date(date).getMonth() + 1 === this.selectedMonth ? true : false;
+
 
   /**
-   * Method to get the drop down value of the month. 
+   * Method to get the drop down value of the month.
    *
-   * @param event 
+   * @param event
    */
   onDropDownChange(event: Event) {
     this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
@@ -62,7 +57,7 @@ export class ToDoComponent implements OnInit {
 
   /**
    * Method to generate form array with Holidays.
-   * 
+   *
    * @returns Holiday Form Array
    */
   getHolidays() {
@@ -123,9 +118,9 @@ createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
   }
 
   /**
-   * Method to Validate is selected Date is a week day. 
+   * Method to Validate is selected Date is a week day.
    *
-   * @param control 
+   * @param control
    * @returns error
    */
   weekendValidator(control: FormControl) {
@@ -139,8 +134,8 @@ createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
 
   /**
    * Method to patch value to edit form and start editing Mode.
-   * 
-   * @param index 
+   *
+   * @param index
    */
   startEditing(index: number) {
     this.editMode = Array(this.taskArray.length).fill(false);
@@ -150,7 +145,7 @@ createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
   }
 
   /**
-   * Method to update the edited values and end Editing mode. 
+   * Method to update the edited values and end Editing mode.
    *
    * @param index
    */
@@ -170,7 +165,8 @@ createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
    */
   getCurrentDate(): string {
     const currentDate = new Date();
-    return currentDate.toISOString().split('T')[0];
+    const formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+    return formattedDate || '';
   }
 
 }
