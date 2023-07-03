@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HolidayService} from 'src/app/services/holiday.service';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HolidayService } from 'src/app/services/holiday.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
 
@@ -10,7 +10,7 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
   standalone: true,
   imports: [CommonModule,
     ReactiveFormsModule,
-  ValidationErrorPipe],
+    ValidationErrorPipe],
   templateUrl: './to-do.component.html',
   styleUrls: ['./to-do.component.scss'],
   providers: [DatePipe]
@@ -18,9 +18,9 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
 export class ToDoComponent implements OnInit {
   taskForm!: FormGroup;
   taskArray!: FormArray;
-  holidayFormArray!: FormArray ;
+  holidayFormArray!: FormArray;
   editMode: boolean[] = [];
-  selectedMonth: number = new Date().getMonth()+1;
+  selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
 
@@ -66,6 +66,7 @@ export class ToDoComponent implements OnInit {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,
+        isHoliday: true
       });
       this.holidayFormArray.push(formGroup)
     }
@@ -73,33 +74,33 @@ export class ToDoComponent implements OnInit {
     return this.holidayFormArray;
   }
 
-/**
- * Method to build the Forms
- */
-buildForm() {
-  this.taskForm = this.formBuilder.group({
-    date: [Date, [Validators.required, this.weekendValidator]],
-    task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-    remarks: ['']
-  });
-}
+  /**
+   * Method to build the Forms
+   */
+  buildForm() {
+    this.taskForm = this.formBuilder.group({
+      date: [Date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
+      task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
+      remarks: ['']
+    });
+  }
 
-/**
- * Method to create a new form group for every task
- *
- * @param date
- * @param task
- * @param remarks
- * @returns Form Group
- */
-createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
-  return this.formBuilder.group({
-    date: [date, [Validators.required, this.weekendValidator]],
-    task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-    remarks: remarks,
-    isHoliday: false
-  });
-}
+  /**
+   * Method to create a new form group for every task
+   *
+   * @param date
+   * @param task
+   * @param remarks
+   * @returns Form Group
+   */
+  createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
+    return this.formBuilder.group({
+      date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
+      task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
+      remarks: remarks,
+      isHoliday: false
+    });
+  }
 
 
   /**
@@ -125,11 +126,27 @@ createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
    */
   weekendValidator(control: FormControl) {
     const form = control.parent
-    const selectedDate= new Date(form?.get('date')?.value);
+    const selectedDate = new Date(form?.get('date')?.value);
     const day = selectedDate.getDay()
 
     const isWeekEnd = day === 0 || day === 6;
     return isWeekEnd ? { isWeekend: true } : null;
+  }
+
+  isHolidayValidator(control: FormControl) {
+    const form = control.parent;
+    const selectedDate = new Date(form?.get('date')?.value);
+    var invalid = 0
+
+    this.taskArray.controls.forEach((holiday: AbstractControl) => {
+      const holidayDate = new Date(holiday.get('date')?.value);
+
+      if (holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value) {
+        console.log('pass')
+        invalid += 1
+      }
+    })
+    return invalid > 0 ? { isHoliday: true } : null;
   }
 
   /**
