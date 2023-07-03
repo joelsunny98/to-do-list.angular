@@ -133,6 +133,7 @@ button[type="submit"] {
   font-size: 12px;
   margin-top: 5px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .form-row {
@@ -144,3 +145,30 @@ button[type="submit"] {
 .form-field {
   margin: 10px;
 }
+
+button[type="submit"]:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+button[type="submit"]:not(:disabled) {
+  background-color: #007bff;
+  color: #fff;
+}
+
+button[type="save"] {
+  background-color: #ccc; 
+  color: #666666; 
+}
+
+button[type="save"]:disabled {
+  opacity: 0.5; /* Reduce the opacity for the disabled button */
+  cursor: not-allowed; /* Change the cursor style for the disabled button */
+}
+
+
+
+
+
+

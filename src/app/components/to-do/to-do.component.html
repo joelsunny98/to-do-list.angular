@@ -2,35 +2,41 @@
   <div class="header-container">
     <h1>TO DO LIST</h1>
     <select (change)="onDropDownChange($event)">
-      <option *ngFor="let options of monthService.months" [value]="options.value">{{ options.label }}</option>
+      <option *ngFor="let options of holidayService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
     <div class="add-button-container">
-      <button  *ngIf="!showForm" class="add-button pi pi-plus" (click)="showForm = !showForm">+ Add Task
+      <button  *ngIf="!isTaskFormVisible" class="add-button pi pi-plus" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
   </div>
 
-  <div *ngIf="showForm" class="form-container">
+  <div *ngIf="isTaskFormVisible" class="form-container">
     <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
       <div class="form-row">
         <div class="form-field">
           <label>Date:</label>
           <input id="to-do-list-date-add" type="date" formControlName="date" required [min]="getCurrentDate()">
         </div>
+        <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
+          Selected date falls on a weekend.
+        </div>
         <div class="form-field">
-          <label>Task:</label>
-          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" required>
+          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" [maxlength]="50">  
+        </div>
+        <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
+          {{ taskForm.get('task')?.errors?.['required'] ? 'Task is required.' :
+             (taskForm.get('task')?.errors?.['minlength'] ? 'Task must be at least 10 characters long.' :
+             (taskForm.get('task')?.errors?.['maxlength'] ? 'Task cannot exceed 50 characters.' : '')) }}
         </div>
         <div class="form-field">
           <label>Remarks:</label>
           <textarea id="to-do-list-remarks-add" formControlName="remarks" placeholder="Remarks"></textarea>
         </div>
       </div>
-      <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
-        Selected date falls on a weekend.
-      </div>
-      <button type="submit">Add Task</button>
+      <button type="submit" [disabled]="!taskForm.valid">Add Task</button>
     </form>
+    
+    
   </div>
 
  <div class="task-container">
@@ -49,12 +55,21 @@
       </ng-container>
       <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
         <div class="task-item">
-          <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date">
-          <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task')?.value" formControlName="task">
-          <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks">
-          <button (click)="finishEditing(i)">Save</button>
+          <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date" placeholder="Date">
+          <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task')?.value" formControlName="task" placeholder="Task">
+          <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks" placeholder="Remarks">
+          <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
+        </div>
+        <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
+          Selected date falls on a weekend.
+        </div>
+        <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
+          {{ taskForm.get('task')?.errors?.['required'] ? 'Task is required.' :
+             (taskForm.get('task')?.errors?.['minlength'] ? 'Task must be at least 10 characters long.' :
+             (taskForm.get('task')?.errors?.['maxlength'] ? 'Task cannot exceed 50 characters.' : '')) }}
         </div>
       </ng-container>
+      
     </div>
   </div>
 </div>
