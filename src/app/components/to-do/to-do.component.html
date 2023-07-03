@@ -14,13 +14,14 @@
     <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
       <div class="form-row">
         <div class="form-field">
-          <input type="date" formControlName="date" required [min]="getCurrentDate()">
+          <label>Date:</label>
+          <input id="to-do-list-date-add" type="date" formControlName="date" required [min]="getCurrentDate()">
         </div>
         <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
           Selected date falls on a weekend.
         </div>
         <div class="form-field">
-          <input type="text" placeholder="Task" formControlName="task" [maxlength]="50">  
+          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" [maxlength]="50">  
         </div>
         <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-message">
           {{ taskForm.get('task')?.errors?.['required'] ? 'Task is required.' :
@@ -28,7 +29,8 @@
              (taskForm.get('task')?.errors?.['maxlength'] ? 'Task cannot exceed 50 characters.' : '')) }}
         </div>
         <div class="form-field">
-          <textarea formControlName="remarks" placeholder="Remarks"></textarea>
+          <label>Remarks:</label>
+          <textarea id="to-do-list-remarks-add" formControlName="remarks" placeholder="Remarks"></textarea>
         </div>
       </div>
       <button type="submit" [disabled]="!taskForm.valid">Add Task</button>
@@ -53,9 +55,9 @@
       </ng-container>
       <ng-container *ngIf="editMode[i]" [formGroup]="taskForm">
         <div class="task-item">
-          <input type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date" placeholder="Date">
-          <input type="text" [value]="taskGroup.get('task')?.value" formControlName="task" placeholder="Task">
-          <input type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks" placeholder="Remarks">
+          <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date')?.value | date" formControlName="date" placeholder="Date">
+          <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task')?.value" formControlName="task" placeholder="Task">
+          <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks')?.value" formControlName="remarks" placeholder="Remarks">
           <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
         </div>
         <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">

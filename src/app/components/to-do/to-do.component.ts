@@ -24,7 +24,7 @@ export class ToDoComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly holidayService: HolidayService,
+    public readonly holidayService: HolidayService,
     private readonly datePipe : DatePipe
   ) {
     this.taskArray = this.formBuilder.array([]);
@@ -52,7 +52,6 @@ export class ToDoComponent implements OnInit {
    */
   onDropDownChange(event: Event) {
     this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
-    console.log(this.selectedMonth)
   }
 
   /**
@@ -65,7 +64,6 @@ export class ToDoComponent implements OnInit {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,
-        remarks: holiday.remarks
       });
       this.holidayFormArray.push(formGroup)
     }
