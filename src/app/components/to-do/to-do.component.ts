@@ -44,14 +44,8 @@ export class ToDoComponent implements OnInit {
    * @param date
    * @returns boolean
    */
-  isThisMonth(date: string) {
-    const selectedDate = new Date(date);
-    if (selectedDate.getMonth() + 1 == this.selectedMonth) {
-      return true;
-    } else {
-      return false
-    }
-  }
+  isThisMonth = (date: string) => new Date(date).getMonth() + 1 === this.selectedMonth ? true : false;
+
 
   /**
    * Method to get the drop down value of the month.
