@@ -22,12 +22,12 @@ export class ToDoComponent implements OnInit {
   editMode: boolean[] = [];
   selectedMonth: number = new Date().getMonth()+1;
   isTaskFormVisible = false;
+  currentDate = new Date();
 
 
   constructor(
     private readonly formBuilder: FormBuilder,
     public readonly holidayService: HolidayService,
-    private readonly datePipe : DatePipe
   ) {
     this.taskArray = this.formBuilder.array([]);
     this.holidayFormArray = this.formBuilder.array([]);
@@ -156,17 +156,6 @@ createNewFormGroup(date: Date, task: string, remarks: string): FormGroup {
       this.editMode[index] = false;
       this.taskForm.reset()
     }
-  }
-
-  /**
-   * Method to get current Date.
-   *
-   * @returns Date
-   */
-  getCurrentDate(): string {
-    const currentDate = new Date();
-    const formattedDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-    return formattedDate || '';
   }
 
 }
