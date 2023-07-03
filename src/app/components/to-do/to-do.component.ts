@@ -64,7 +64,6 @@ export class ToDoComponent implements OnInit {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,
-        remarks: holiday.remarks
       });
       this.holidayFormArray.push(formGroup)
     }
