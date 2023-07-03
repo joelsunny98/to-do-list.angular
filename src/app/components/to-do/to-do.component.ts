@@ -10,7 +10,7 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
   standalone: true,
   imports: [CommonModule,
     ReactiveFormsModule,
-  ValidationErrorPipe],
+    ValidationErrorPipe],
   templateUrl: './to-do.component.html',
   styleUrls: ['./to-do.component.scss'],
   providers: [DatePipe]
@@ -136,16 +136,17 @@ export class ToDoComponent implements OnInit {
   isHolidayValidator(control: FormControl) {
     const form = control.parent;
     const selectedDate = new Date(form?.get('date')?.value);
+    var invalid = 0
 
     this.taskArray.controls.forEach((holiday: AbstractControl) => {
       const holidayDate = new Date(holiday.get('date')?.value);
 
       if (holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value) {
-        console.log('isHoliday');
-        return { isHoliday: true };
+        console.log('pass')
+        invalid += 1
       }
-      return null
     })
+    return invalid > 0 ? { isHoliday: true } : null;
   }
 
   /**

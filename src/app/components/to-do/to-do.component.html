@@ -18,7 +18,7 @@
           <label>Date:</label>
           <input id="to-do-list-date-add" type="date" formControlName="date" required [min]="currentDate | date:'yyyy-MM-dd'">
         </div>
-        <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date')?.touched" class="error-message">
+        <div *ngIf="taskForm.get('date')?.invalid && taskForm.get('date')?.touched" class="error-message">
           {{ taskForm.get('date')?.errors | validationError }}
         </div>
         <div class="form-field">
