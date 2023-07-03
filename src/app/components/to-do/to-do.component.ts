@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HolidayService } from 'src/app/services/holiday.service';
+import { CommonService } from 'src/app/services/coomon.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
 
@@ -28,7 +28,7 @@ export class ToDoComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    public readonly holidayService: HolidayService,
+    public readonly commonService: CommonService,
   ) {
     this.taskArray = this.formBuilder.array([]);
     this.holidayFormArray = this.formBuilder.array([]);
@@ -63,7 +63,7 @@ export class ToDoComponent implements OnInit {
    * @returns Holiday Form Array
    */
   getHolidays() {
-    for (const holiday of this.holidayService.holidayArray) {
+    for (const holiday of this.commonService.holidayArray) {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,

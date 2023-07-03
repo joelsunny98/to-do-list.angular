@@ -4,7 +4,7 @@ import { IMonth } from '../model/month';
 @Injectable({
   providedIn: 'root'
 })
-export class HolidayService {
+export class CommonService {
 
   holidayArray: IHoliday[] = [
     {
