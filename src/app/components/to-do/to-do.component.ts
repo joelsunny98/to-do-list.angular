@@ -18,14 +18,13 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
   providers: [DatePipe]
 })
 export class ToDoComponent implements OnInit {
-  taskForm!: FormGroup;
-  taskArray!: FormArray;
-  holidayFormArray!: FormArray;
+  taskForm!: FormGroup ;
+  taskArray: FormArray;
+  holidayFormArray: FormArray;
   editMode: boolean[] = [];
   selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
-
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -128,7 +127,6 @@ export class ToDoComponent implements OnInit {
    */
   weekendValidator(control: FormControl) {
     const form = control.parent
-    const selectedDate = new Date(form?.get('date')?.value);
     const selectedDate = new Date(form?.get('date')?.value);
     const day = selectedDate.getDay()
 
