@@ -36,8 +36,8 @@ export class ToDoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.taskArray = this.getHolidays();
     this.buildForm();
+    this.taskArray = this.getHolidays();
   }
 
   /**
@@ -54,9 +54,7 @@ export class ToDoComponent implements OnInit {
    *
    * @param event
    */
-  onDropDownChange(event: Event) {
-    this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
-  }
+  onDropDownChange = (event: Event) => this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
 
   /**
    * Method to generate form array with Holidays.
@@ -99,7 +97,7 @@ export class ToDoComponent implements OnInit {
     return this.formBuilder.group({
       date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
       task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-      remarks: remarks,
+      remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false
     });
   }
