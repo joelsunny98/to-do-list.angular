@@ -124,7 +124,7 @@ addFormGroup() {
     const selectedDate = new Date(control.value);
     const invalid = this.taskArray.controls.some((holiday: AbstractControl) => {
       const holidayDate = new Date(holiday.get('date')?.value);
-      return holidayDate.getDate() === selectedDate.getDate() && holiday.get('isHoliday')?.value;
+      return holidayDate.getTime() === selectedDate.getTime() && holiday.get('isHoliday')?.value;
     })
     return invalid ? { isHoliday: true} : null
   }
