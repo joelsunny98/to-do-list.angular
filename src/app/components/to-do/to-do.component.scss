@@ -156,7 +156,7 @@ button[type="submit"] {
   cursor: pointer;
 }
 
-.error-message {
+.error-message,.error-messages {
   color: red;
   font-size: 12px;
   margin-top: 5px;
@@ -167,6 +167,10 @@ button[type="submit"] {
   align-self: flex-start; /* Align error message to the left */
 }
 
+.error-messages{
+   position: absolute;
+}
+
 .form-row {
   display: flex;
   flex-wrap: wrap;
@@ -175,6 +179,7 @@ button[type="submit"] {
 
 .form-field {
   margin: 10px;
+  position: relative;
 }
 
 button[type="submit"]:disabled {

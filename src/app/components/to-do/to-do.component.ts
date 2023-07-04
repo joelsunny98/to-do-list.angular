@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
@@ -11,7 +11,8 @@ import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    ValidationErrorPipe
+    ValidationErrorPipe,
+    FormsModule
   ],
   templateUrl: './to-do.component.html',
   styleUrls: ['./to-do.component.scss'],
@@ -81,8 +82,8 @@ export class ToDoComponent implements OnInit {
   buildForm() {
     this.taskForm = this.formBuilder.group({
       date: [Date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
-      task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(50)]],
-      remarks: ['']
+      task: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
+      remarks: ['', Validators.maxLength(50)]
     });
   }
 
