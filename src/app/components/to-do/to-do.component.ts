@@ -101,7 +101,6 @@ addFormGroup() {
     const newTaskFormGroup = this.buildTaskFormGroup(date, task, remarks); // Call the buildTaskFormGroup function
     this.taskArray.push(newTaskFormGroup);
     this.taskForm.reset();
-
     this.editMode = Array(this.taskArray.length).fill(false);
   }
   this.isTaskFormVisible = false;

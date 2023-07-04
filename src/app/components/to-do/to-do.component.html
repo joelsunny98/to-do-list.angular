@@ -2,13 +2,14 @@
   <h1>TO DO LIST</h1>
   <div class="header-container">
     <select (change)="onDropDownChange($event)" [(ngModel)]="selectedMonth">
-        <option value=0 disabled hidden>Select a Month</option>
+      <option value=0 disabled hidden>Select a Month</option>
       <option *ngFor="let options of commonService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
-    <button  id="clear-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
+    <button id="clear-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
 
     <div class="add-button-container">
-      <button *ngIf="!isTaskFormVisible"  id="add-task-button" class="add-button" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
+      <button *ngIf="!isTaskFormVisible" id="add-task-button" class="add-button"
+        (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
   </div>
@@ -20,10 +21,10 @@
           <label>{{ taskGroup.get('date').value | date }}</label>
           <label>{{ taskGroup.get('task').value }}</label>
           <label>{{ taskGroup.get('remarks')?.value }}</label>
-           <div *ngIf="taskGroup.get('isHoliday').value == false">
-            <button id="edit-button"(click)="startEditing(i)" class="edit-button">Edit</button>
-          </div>    
-          
+          <div *ngIf="taskGroup.get('isHoliday').value == false">
+            <button id="to-do-edit-button-{{i}}" (click)="startEditing(i)" class="edit-button">Edit</button>
+          </div>
+
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
