@@ -5,7 +5,7 @@
         <option value=0 disabled hidden>Select a Month</option>
       <option *ngFor="let options of commonService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
-    <button  id="clear-button" class="clear-icon" (click)="selectedMonth = 0">🔄</button>
+    <button  id="clear-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
 
     <div class="add-button-container">
       <button *ngIf="!isTaskFormVisible"  id="add-task-button" class="add-button" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
