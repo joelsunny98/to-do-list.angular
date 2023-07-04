@@ -5,24 +5,25 @@
         <option value=0 disabled hidden>Select a Month</option>
       <option *ngFor="let options of commonService.monthsArray" [value]="options.value">{{ options.label }}</option>
     </select>
-    <button (click)="selectedMonth = 0">Clear</button>
+    <button  id="clear-button" class="clear-icon" (click)="selectedMonth = 0">🔄</button>
 
     <div class="add-button-container">
-      <button *ngIf="!isTaskFormVisible" class="add-button" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
+      <button *ngIf="!isTaskFormVisible"  id="add-task-button" class="add-button" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
   </div>
 
   <div class="task-container">
-    <div *ngFor="let taskGroup of taskArray.controls; let i = index">
+    <div *ngFor="let taskGroup of taskArray.controls; let i = index; trackBy: trackByFn">
       <div *ngIf="isThisMonth(taskGroup.get('date').value)">
         <div class="task-item" *ngIf="!editMode[i]">
           <label>{{ taskGroup.get('date').value | date }}</label>
           <label>{{ taskGroup.get('task').value }}</label>
           <label>{{ taskGroup.get('remarks')?.value }}</label>
-          <div *ngIf="taskGroup.get('isHoliday').value == false">
-            <button (click)="startEditing(i)" class="edit-button">Edit</button>
-          </div>
+           <div *ngIf="taskGroup.get('isHoliday').value == false">
+            <button id="edit-button"(click)="startEditing(i)" class="edit-button">Edit</button>
+          </div>    
+          
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
@@ -47,7 +48,7 @@
               {{ taskForm.get('remarks').errors | validationError:'remarks' }}
             </div>
           </div>
-          <button type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
+          <button id="save-button" type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
         </div>
       </div>
     </div>
@@ -78,8 +79,8 @@
           {{ taskForm.get('remarks').errors | validationError:'remarks' }}
         </div>
       </div>
-      <button type="submit" [disabled]="!taskForm.valid">Add Task</button>
-      <button type="reset" (click)="closeForm()" class="close-button">Close</button>
+      <button id="submit-button" type="submit" [disabled]="!taskForm.valid">Add Task</button>
+      <button id="reset-button" type="reset" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
 </div>
