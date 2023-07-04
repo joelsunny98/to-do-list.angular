@@ -23,7 +23,6 @@ export class ToDoComponent implements OnInit {
   taskArray: FormArray;
   holidayFormArray: FormArray;
   editMode: boolean[] = [];
-  editModeArray: boolean[] = [];
   selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
@@ -41,7 +40,7 @@ export class ToDoComponent implements OnInit {
     this.taskForm = this.buildTaskFormGroup(new Date(), '', '');
   }
 
-  trackByFn(index: number, taskGroup: any): number {
+  trackByFn(taskGroup: any): number {
     return taskGroup.id; }
 
   /**
