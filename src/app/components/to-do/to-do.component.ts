@@ -23,7 +23,6 @@ export class ToDoComponent implements OnInit {
   taskArray: FormArray;
   holidayFormArray: FormArray;
   editMode: boolean[] = [];
-  editModeArray: boolean[] = [];
   selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
