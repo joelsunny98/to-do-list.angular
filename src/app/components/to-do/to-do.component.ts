@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonService } from 'src/app/services/coomon.service';
+import { CommonService } from 'src/app/services/common.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
 
