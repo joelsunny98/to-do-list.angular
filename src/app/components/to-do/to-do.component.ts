@@ -41,7 +41,7 @@ export class ToDoComponent implements OnInit {
     this.taskForm = this.buildTaskFormGroup(new Date(), '', '');
   }
 
-  trackByFn(index: number, taskGroup: any): number {
+  trackByFn(taskGroup: any): number {
     return taskGroup.id; }
 
   /**
