@@ -5,10 +5,11 @@
         <option value=0 disabled hidden>Select a Month</option>
       <option *ngFor="let options of commonService.monthsArray" [selected]="options.value === selectedMonth" [value]="options.value">{{ options.label }}</option>
     </select>
-    <button  id="clear-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
+    <button id="clear-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
 
     <div class="add-button-container">
-      <button *ngIf="!isTaskFormVisible"  id="add-task-button" class="add-button" (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
+      <button *ngIf="!isTaskFormVisible" id="add-task-button" class="add-button"
+        (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
       </button>
     </div>
   </div>
@@ -20,14 +21,14 @@
           <label>{{ taskGroup.get('date').value | date }}</label>
           <label>{{ taskGroup.get('task').value }}</label>
           <label>{{ taskGroup.get('remarks')?.value }}</label>
-           <div *ngIf="taskGroup.get('isHoliday').value == false">
-            <button id="edit-button"(click)="startEditing(i)" class="edit-button">Edit</button>
+          <div *ngIf="taskGroup.get('isHoliday').value == false">
+            <button id="to-do-edit-button-{{i}}" (click)="startEditing(i)" class="edit-button">Edit</button>
           </div>
 
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
-            <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date').value | date"
+            <input id="to-do-list-date-edit" type="date" 
               formControlName="date" placeholder="Date" [min]="currentDate | date:'yyyy-MM-dd'">
             <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date').touched"
               class="error-messages">
@@ -35,21 +36,21 @@
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task').value" formControlName="task"
+            <input id="to-do-list-task-edit" type="text" formControlName="task"
               placeholder="Task" [maxlength]="26">
             <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-messages">
               {{ taskForm.get('task').errors | validationError:'task' }}
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks').value"
+            <input id="to-do-list-remarks-edit" type="text" 
               formControlName="remarks" placeholder="Remarks" [maxlength]="51">
             <div *ngIf="taskForm.get('remarks').invalid && taskForm.get('remarks').touched" class="error-messages">
               {{ taskForm.get('remarks').errors | validationError:'remarks' }}
             </div>
           </div>
-          <button id="save-button" type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine">Save</button>
-          <button id="close-button" type="button" (click)="cancelEditing(i)">Close</button>
+          <button id="to-do-list-submit-button" type="submit" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
+          <button id="to-do-lidt-close-button" type="button" (click)="cancelEditing(i)" class="close-button">Close</button>
         </div>
       </div>
     </div>
@@ -80,8 +81,8 @@
           {{ taskForm.get('remarks').errors | validationError:'remarks' }}
         </div>
       </div>
-      <button id="submit-button" type="submit" [disabled]="!taskForm.valid">Add Task</button>
-      <button id="reset-button" type="reset" (click)="closeForm()" class="close-button">Close</button>
+      <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid" class="submit-button">Add Task</button>
+      <button id="to-do-list-close-button" type="close" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
 </div>
