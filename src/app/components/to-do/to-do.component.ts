@@ -26,6 +26,7 @@ export class ToDoComponent implements OnInit {
   selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
+  formControlErrors: { [key: string]: string } = {};
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -115,6 +116,26 @@ export class ToDoComponent implements OnInit {
     }
     this.isTaskFormVisible = false;
   }
+
+  checkFormControlValidity(controlName: string) {
+    const control = this.taskForm.get(controlName);
+    if (control.invalid && control.touched) {
+      this.formControlErrors[controlName] = this.getFormControlErrorMessage(controlName);
+    } else {
+      delete this.formControlErrors[controlName];
+    }
+  }
+
+  isFormControlInvalid(controlName: string) {
+    return this.formControlErrors.hasOwnProperty(controlName);
+  }
+
+  getFormControlErrorMessage(controlName: string) {
+    const control = this.taskForm.get(controlName);
+    const errors = control.errors;
+    return new ValidationErrorPipe().transform(errors, controlName);
+  }
+
 
   /**
    * Method to Validate is selected Date is a week day.
