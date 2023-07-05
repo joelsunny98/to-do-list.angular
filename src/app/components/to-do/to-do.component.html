@@ -28,7 +28,7 @@
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
-            <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date').value | date"
+            <input id="to-do-list-date-edit" type="date" 
               formControlName="date" placeholder="Date">
             <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date').touched"
               class="error-messages">
@@ -36,14 +36,14 @@
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-task-edit" type="text" [value]="taskGroup.get('task').value" formControlName="task"
+            <input id="to-do-list-task-edit" type="text" formControlName="task"
               placeholder="Task" [maxlength]="26">
             <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-messages">
               {{ taskForm.get('task').errors | validationError:'task' }}
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-remarks-edit" type="text" [value]="taskGroup.get('remarks').value"
+            <input id="to-do-list-remarks-edit" type="text" 
               formControlName="remarks" placeholder="Remarks" [maxlength]="51">
             <div *ngIf="taskForm.get('remarks').invalid && taskForm.get('remarks').touched" class="error-messages">
               {{ taskForm.get('remarks').errors | validationError:'remarks' }}
