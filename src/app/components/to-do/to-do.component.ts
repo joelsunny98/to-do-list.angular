@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
@@ -41,7 +41,8 @@ export class ToDoComponent implements OnInit {
   }
 
   trackByFn(taskGroup: any): number {
-    return taskGroup.id; }
+    return taskGroup.id;
+  }
 
   /**
    * Method to check to sort task according to the month.
@@ -77,34 +78,40 @@ export class ToDoComponent implements OnInit {
     return this.holidayFormArray;
   }
 
-/**
- * Method to build the task form group.
- *
- * @param date
- * @param task
- * @param remarks
- * @returns Form Group
- */
-buildTaskFormGroup(date: Date, task: string, remarks: string): FormGroup {
-  return this.formBuilder.group({
-    date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
-    task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
-    remarks: [remarks, Validators.maxLength(50)],
-    isHoliday: false
-  });
-}
-
-addFormGroup() {
-  if (this.taskForm.valid) {
-    const { date, task, remarks } = this.taskForm.value;
-    const newTaskFormGroup = this.buildTaskFormGroup(date, task, remarks); // Call the buildTaskFormGroup function
-    this.taskArray.push(newTaskFormGroup);
-    this.taskForm.reset();
-
-    this.editMode = Array(this.taskArray.length).fill(false);
+  /**
+   * Method to build the task form group.
+   *
+   * @param date
+   * @param task
+   * @param remarks
+   * @returns Form Group
+   */
+  buildTaskFormGroup(date: Date, task: string, remarks: string): FormGroup {
+    return this.formBuilder.group({
+      date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
+      task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
+      remarks: [remarks, Validators.maxLength(50)],
+      isHoliday: false
+    });
   }
-  this.isTaskFormVisible = false;
-}
+
+  addFormGroup() {
+    if (this.taskForm.valid) {
+      const { date, task, remarks } = this.taskForm.value;
+      const newTaskFormGroup = this.buildTaskFormGroup(date, task, remarks); // Call the buildTaskFormGroup function
+      this.taskArray.push(newTaskFormGroup);
+
+      this.taskArray.controls.sort((a, b) => {  // Sort the taskArray
+        const dateA = new Date(a.get('date').value);
+        const dateB = new Date(b.get('date').value);
+        return dateA.getTime() - dateB.getTime();
+      });
+      this.taskForm.reset();
+
+      this.editMode = Array(this.taskArray.length).fill(false);
+    }
+    this.isTaskFormVisible = false;
+  }
 
   /**
    * Method to Validate is selected Date is a week day.
@@ -125,7 +132,7 @@ addFormGroup() {
       const holidayDate = new Date(holiday.get('date')?.value);
       return holidayDate.getTime() === selectedDate.getTime() && holiday.get('isHoliday')?.value;
     })
-    return invalid ? { isHoliday: true} : null
+    return invalid ? { isHoliday: true } : null
   }
 
   /**
