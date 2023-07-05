@@ -22,13 +22,13 @@
           <label>{{ taskGroup.get('remarks')?.value }}</label>
            <div *ngIf="taskGroup.get('isHoliday').value == false">
             <button id="edit-button"(click)="startEditing(i)" class="edit-button">Edit</button>
-          </div>    
-          
+          </div>
+
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
             <input id="to-do-list-date-edit" type="date" [value]="taskGroup.get('date').value | date"
-              formControlName="date" placeholder="Date">
+              formControlName="date" placeholder="Date" [min]="currentDate | date:'yyyy-MM-dd'">
             <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date').touched"
               class="error-messages">
               {{ taskForm.get('date').errors | validationError:'date' }}
