@@ -30,28 +30,29 @@
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
             <input id="to-do-list-date-edit" type="date" formControlName="date" placeholder="Date"
-              [min]="currentDate | date:'yyyy-MM-dd'">
-            <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date').touched"
-              class="error-messages">
-              {{ taskForm.get('date').errors | validationError:'date' }}
+              [min]="currentDate | date:'yyyy-MM-dd'" (blur)="checkFormControlValidity('date')">
+            <div *ngIf="isFormControlInvalid('date')" class="error-messages">
+              {{ getFormControlErrorMessage('date') }}
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-task-edit" type="text" formControlName="task"
-              placeholder="Task" [maxlength]="26">
-            <div *ngIf="taskForm.get('task')?.invalid && taskForm.get('task')?.touched" class="error-messages">
-              {{ taskForm.get('task').errors | validationError:'task' }}
+            <input id="to-do-list-task-edit" type="text" formControlName="task" placeholder="Task" [maxlength]="26"
+              (blur)="checkFormControlValidity('task')">
+            <div *ngIf="isFormControlInvalid('task')" class="error-messages">
+              {{ getFormControlErrorMessage('task') }}
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-remarks-edit" type="text"
+            <input id="to-do-list-remarks-edit" type="text" (blur)="checkFormControlValidity('remarks')"
               formControlName="remarks" placeholder="Remarks" [maxlength]="51">
-            <div *ngIf="taskForm.get('remarks').invalid && taskForm.get('remarks').touched" class="error-messages">
-              {{ taskForm.get('remarks').errors | validationError:'remarks' }}
+            <div *ngIf="isFormControlInvalid('remarks')" class="error-messages">
+              {{ getFormControlErrorMessage('remarks') }}
             </div>
           </div>
-          <button id="to-do-list-submit-button" type="submit" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
-          <button id="to-do-lidt-close-button" type="button" (click)="cancelEditing(i)" class="close-button">Close</button>
+          <button id="to-do-list-submit-button" type="submit" (click)="finishEditing(i)"
+            [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
+          <button id="to-do-lidt-close-button" type="button" (click)="cancelEditing(i)"
+            class="close-button">Close</button>
         </div>
       </div>
     </div>
