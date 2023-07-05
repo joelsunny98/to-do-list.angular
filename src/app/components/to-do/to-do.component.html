@@ -2,8 +2,9 @@
   <h1>TO DO LIST</h1>
   <div class="header-container">
     <select (change)="onDropDownChange($event)" [(ngModel)]="selectedMonth">
-        <option value=0 disabled hidden>Select a Month</option>
-      <option *ngFor="let options of commonService.monthsArray" [selected]="options.value === selectedMonth" [value]="options.value">{{ options.label }}</option>
+      <option value=0 disabled hidden>Select a Month</option>
+      <option *ngFor="let options of commonService.monthsArray" [selected]="options.value === selectedMonth"
+        [value]="options.value">{{ options.label }}</option>
     </select>
     <button id="clear-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
 
@@ -28,8 +29,8 @@
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
-            <input id="to-do-list-date-edit" type="date" 
-              formControlName="date" placeholder="Date" [min]="currentDate | date:'yyyy-MM-dd'">
+            <input id="to-do-list-date-edit" type="date" formControlName="date" placeholder="Date"
+              [min]="currentDate | date:'yyyy-MM-dd'">
             <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date').touched"
               class="error-messages">
               {{ taskForm.get('date').errors | validationError:'date' }}
@@ -43,7 +44,7 @@
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-remarks-edit" type="text" 
+            <input id="to-do-list-remarks-edit" type="text"
               formControlName="remarks" placeholder="Remarks" [maxlength]="51">
             <div *ngIf="taskForm.get('remarks').invalid && taskForm.get('remarks').touched" class="error-messages">
               {{ taskForm.get('remarks').errors | validationError:'remarks' }}
@@ -62,26 +63,28 @@
       <div class="form-row">
         <div class="form-field">
           <input id="to-do-list-date-add" type="date" formControlName="date" required
-            [min]="currentDate | date:'yyyy-MM-dd'">
+            [min]="currentDate | date:'yyyy-MM-dd'" (blur)="checkFormControlValidity('date')">
         </div>
-        <div *ngIf="taskForm.get('date').invalid && taskForm.get('date').touched" class="error-message">
-          {{ taskForm.get('date').errors | validationError:'date' }}
-        </div>
-        <div class="form-field">
-          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task" [maxlength]="26">
-        </div>
-        <div *ngIf="taskForm.get('task').invalid && taskForm.get('task').touched" class="error-message">
-          {{ taskForm.get('task').errors | validationError:'task' }}
+        <div *ngIf="isFormControlInvalid('date')" class="error-message">
+          {{ getFormControlErrorMessage('date') }}
         </div>
         <div class="form-field">
-          <textarea id="to-do-list-remarks-add" formControlName="remarks" placeholder="Remarks"
-            [maxlength]="51"></textarea>
+          <input id="to-do-list-task-add" (blur)="checkFormControlValidity('task')" type="text" placeholder="Task"
+            formControlName="task" [maxlength]="26">
         </div>
-        <div *ngIf="taskForm.get('remarks').invalid && taskForm.get('remarks').touched" class="error-message">
-          {{ taskForm.get('remarks').errors | validationError:'remarks' }}
+        <div *ngIf="isFormControlInvalid('task')" class="error-message">
+          {{ getFormControlErrorMessage('task') }}
+        </div>
+        <div class="form-field">
+          <textarea id="to-do-list-remarks-add" (blur)="checkFormControlValidity('remarks')" formControlName="remarks"
+            placeholder="Remarks" [maxlength]="51"></textarea>
+        </div>
+        <div *ngIf="isFormControlInvalid('remarks')" class="error-message">
+          {{ getFormControlErrorMessage('remarks') }}
         </div>
       </div>
-      <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid" class="submit-button">Add Task</button>
+      <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid" class="submit-button">Add
+        Task</button>
       <button id="to-do-list-close-button" type="close" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
