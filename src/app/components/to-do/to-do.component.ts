@@ -101,13 +101,16 @@ export class ToDoComponent implements OnInit {
       const newTaskFormGroup = this.buildTaskFormGroup(date, task, remarks); // Call the buildTaskFormGroup function
       this.taskArray.push(newTaskFormGroup);
 
+      const month = new Date(date).getMonth() + 1;
+
       this.taskArray.controls.sort((a, b) => {  // Sort the taskArray
         const dateA = new Date(a.get('date').value);
         const dateB = new Date(b.get('date').value);
         return dateA.getTime() - dateB.getTime();
       });
+      
       this.taskForm.reset();
-
+      this.selectedMonth = month;
       this.editMode = Array(this.taskArray.length).fill(false);
     }
     this.isTaskFormVisible = false;
