@@ -108,7 +108,7 @@ export class ToDoComponent implements OnInit {
         const dateB = new Date(b.get('date').value);
         return dateA.getTime() - dateB.getTime();
       });
-      
+
       this.taskForm.reset();
       this.selectedMonth = month;
       this.editMode = Array(this.taskArray.length).fill(false);
@@ -159,13 +159,22 @@ export class ToDoComponent implements OnInit {
     const taskGroup = this.taskArray.at(index) as FormGroup;
     if (taskGroup.valid) {
       taskGroup.patchValue(this.taskForm.value);
-      this.editMode[index] = false;
-      this.taskForm.reset()
     }
+    this.editMode[index] = false;
+    this.taskForm.reset()
   }
 
   /**
- * Method to close the task form and reset the entries
+* Method to close the task form while editing and reset the entries
+*
+*/
+  cancelEditing(index: number) {
+    this.editMode[index] = false;
+    this.taskForm.reset();
+  }
+
+  /**
+ * Method to close the task form while adding a task and reset the entries
  *
  */
   closeForm() {

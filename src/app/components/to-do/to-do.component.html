@@ -48,7 +48,8 @@
               {{ taskForm.get('remarks').errors | validationError:'remarks' }}
             </div>
           </div>
-          <button id="save-button" type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid">Save</button>
+          <button id="save-button" type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine">Save</button>
+          <button id="close-button" type="button" (click)="cancelEditing(i)">Close</button>
         </div>
       </div>
     </div>
