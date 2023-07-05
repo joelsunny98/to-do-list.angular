@@ -49,8 +49,8 @@
               {{ taskForm.get('remarks').errors | validationError:'remarks' }}
             </div>
           </div>
-          <button id="save-button" type="save" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine">Save</button>
-          <button id="close-button" type="button" (click)="cancelEditing(i)">Close</button>
+          <button id="to-do-list-submit-button" type="submit" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
+          <button id="to-do-lidt-close-button" type="button" (click)="cancelEditing(i)" class="close-button">Close</button>
         </div>
       </div>
     </div>
@@ -81,8 +81,8 @@
           {{ taskForm.get('remarks').errors | validationError:'remarks' }}
         </div>
       </div>
-      <button id="submit-button" type="submit" [disabled]="!taskForm.valid">Add Task</button>
-      <button id="reset-button" type="reset" (click)="closeForm()" class="close-button">Close</button>
+      <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid" class="submit-button">Add Task</button>
+      <button id="to-do-list-close-button" type="close" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
 </div>
