@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { CommonService } from 'src/app/services/common.service';
 import { DatePipe } from '@angular/common';
 import { ValidationErrorPipe } from 'src/app/pipes/validation-error.pipe';
@@ -41,9 +41,9 @@ export class ToDoComponent implements OnInit {
   }
 
   /**
-   * 
-   * @param taskGroup 
-   * @returns 
+   *
+   * @param taskGroup
+   * @returns
    */
   trackByFn(taskGroup: any): number {
     return taskGroup.id;
@@ -76,8 +76,8 @@ export class ToDoComponent implements OnInit {
    */
   buildTaskFormGroup(date: Date, task: string, remarks: string): FormGroup {
     return this.formBuilder.group({
-      date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
-      task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
+      date: [date, { validators: [this.isHolidayValidator(), this.weekendValidator,Validators.required], updateOn: 'blur' }],
+      task: [task, { validators: [Validators.required, Validators.minLength(10), Validators.maxLength(25)], updateOn: 'blur' }],
       remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false,
       isEditMode: false
@@ -98,7 +98,7 @@ export class ToDoComponent implements OnInit {
 
   /**
    * Method to check form control validity
-   * 
+   *
    * @param controlName
    */
   checkFormControlValidity(controlName: string) {
@@ -112,8 +112,8 @@ export class ToDoComponent implements OnInit {
 
   /**
    * Method to check if FormControlError has property
-   * 
-   * @param controlName 
+   *
+   * @param controlName
    * @returns boolean
    */
   isFormControlInvalid(controlName: string): boolean {
@@ -122,8 +122,8 @@ export class ToDoComponent implements OnInit {
 
   /**
    * Method to get the Form Control Error Message
-   * 
-   * @param controlName 
+   *
+   * @param controlName
    * @returns string
    */
   getFormControlErrorMessage(controlName: string): string {
@@ -146,20 +146,20 @@ export class ToDoComponent implements OnInit {
   }
 
   /**
-   * Method to Validate if selected Date is a Holiday 
-   * 
-   * @param control 
+   * Method to Validate if selected Date is a Holiday
+   *
+   * @param control
    * @returns error
    */
-  isHolidayValidator(control: FormControl) {
-    const selectedDate = new Date(control.value);
-
-    const invalid = this.holidayFormArray.controls.some((holiday: AbstractControl) => {
-      const holidayDate = new Date(holiday.get('date')?.value);
-      return holidayDate.getTime() === selectedDate.getTime() && holiday.get('isHoliday')?.value;
-    })
-
-    return invalid ? { isHoliday: true } : null
+  isHolidayValidator(): ValidatorFn {
+    return (control: FormControl): ValidationErrors | null => {
+      const selectedDate = new Date(control.value);
+      const invalid = this.taskArray.controls.some((holiday: AbstractControl) => {
+        const holidayDate = new Date(holiday.get('date')?.value);
+        return holidayDate.getTime() === selectedDate.getTime() && holiday.get('isHoliday')?.value;
+      })
+      return invalid ? { isHoliday: true } : null
+    }
   }
 
   /**
