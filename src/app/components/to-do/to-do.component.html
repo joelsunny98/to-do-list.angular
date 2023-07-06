@@ -17,7 +17,7 @@
 
   <div class="task-container">
     <div *ngFor="let taskGroup of taskArray.controls; let i = index; trackBy: trackByFn">
-      <div *ngIf="isThisMonth(taskGroup.get('date').value)">
+      <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth.toString()">
         <div class="task-item" *ngIf="!taskGroup.get('editMode')?.value">
           <label>{{ taskGroup.get('date').value | date }}</label>
           <label>{{ taskGroup.get('task').value }}</label>
@@ -36,7 +36,7 @@
             </div>
           </div>
           <div class="form-field">
-            <input id="to-do-list-task-edit" type="text" formControlName="task" placeholder="Task" [maxlength]="26"
+            <input id="to-do-list-task-edit" type="text" formControlName="task" placeholder="Task"
               (blur)="checkFormControlValidity('task')">
             <div *ngIf="isFormControlInvalid('task')" class="error-messages">
               {{ getFormControlErrorMessage('task') }}
@@ -44,7 +44,7 @@
           </div>
           <div class="form-field">
             <input id="to-do-list-remarks-edit" type="text" (blur)="checkFormControlValidity('remarks')"
-              formControlName="remarks" placeholder="Remarks" [maxlength]="51">
+              formControlName="remarks" placeholder="Remarks">
             <div *ngIf="isFormControlInvalid('remarks')" class="error-messages">
               {{ getFormControlErrorMessage('remarks') }}
             </div>
@@ -71,14 +71,14 @@
         </div>
         <div class="form-field">
           <input id="to-do-list-task-add" (blur)="checkFormControlValidity('task')" type="text" placeholder="Task"
-            formControlName="task" [maxlength]="26">
+            formControlName="task">
         </div>
         <div *ngIf="isFormControlInvalid('task')" class="error-message">
           {{ getFormControlErrorMessage('task') }}
         </div>
         <div class="form-field">
           <textarea id="to-do-list-remarks-add" (blur)="checkFormControlValidity('remarks')" formControlName="remarks"
-            placeholder="Remarks" [maxlength]="51"></textarea>
+            placeholder="Remarks"></textarea>
         </div>
         <div *ngIf="isFormControlInvalid('remarks')" class="error-message">
           {{ getFormControlErrorMessage('remarks') }}

@@ -45,15 +45,6 @@ export class ToDoComponent implements OnInit {
   }
 
   /**
-   * Method to check to sort task according to the month.
-   *
-   * @param date
-   * @returns boolean
-   */
-  isThisMonth = (date: string) => new Date(date).getMonth() + 1 === this.selectedMonth ? true : false;
-
-
-  /**
    * Method to get the drop down value of the month.
    *
    * @param event
@@ -87,7 +78,7 @@ export class ToDoComponent implements OnInit {
    */
   buildTaskFormGroup(date: Date, task: string, remarks: string): FormGroup {
     return this.formBuilder.group({
-      date: [new Date(date), [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
+      date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
       task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
       remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false,
