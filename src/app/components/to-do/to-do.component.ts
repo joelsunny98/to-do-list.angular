@@ -67,15 +67,14 @@ export class ToDoComponent implements OnInit {
    * @returns Holiday Form Array
    */
   getHolidays() {
-    for (const holiday of this.commonService.holidayArray) {
+    this.commonService.holidayArray.forEach((holiday) => {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,
         isHoliday: true
       });
       this.holidayFormArray.push(formGroup)
-    }
-
+    })
     return this.holidayFormArray;
   }
 
