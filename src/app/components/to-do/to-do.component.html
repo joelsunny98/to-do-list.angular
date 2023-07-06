@@ -28,8 +28,7 @@
         </div>
         <div *ngIf="editMode[i]" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
-            <input id="to-do-list-date-edit" type="date" 
-              formControlName="date" placeholder="Date" [min]="currentDate | date:'yyyy-MM-dd'">
+            <input id="to-do-list-date-edit" type="date" formControlName="date" placeholder="Date" [min]="currentDate | date:'yyyy-MM-dd'">
             <div *ngIf="taskForm.get('date')?.errors?.['isWeekend'] && taskForm.get('date').touched"
               class="error-messages">
               {{ taskForm.get('date').errors | validationError:'date' }}
@@ -52,6 +51,7 @@
           <button id="to-do-list-submit-button" type="submit" (click)="finishEditing(i)" [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
           <button id="to-do-lidt-close-button" type="button" (click)="cancelEditing(i)" class="close-button">Close</button>
         </div>
+        
       </div>
     </div>
   </div>
