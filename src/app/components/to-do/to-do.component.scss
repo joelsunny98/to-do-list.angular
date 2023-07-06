@@ -45,6 +45,7 @@ select {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  width: 100%;
 }
 
 .task-item label {
@@ -52,6 +53,9 @@ select {
   margin-bottom: 5px;
   width: 100px;
   text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .task-item input[type="date"],
@@ -95,6 +99,7 @@ select {
   padding: 10px;
   margin-top: 10px;
   width: auto;
+ 
 }
 
 .edit-button {
@@ -105,9 +110,10 @@ select {
   border-radius: 2px;
   margin-right: 5px;
   margin-bottom: 10px;
-  padding: 5px;
+  padding: 3px;
+  height: 30px;
   border-radius: 4px;
-  width: 150px;
+  width: 100px;
 }
 
 .edit-button:hover {

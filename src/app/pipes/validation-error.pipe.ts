@@ -34,7 +34,7 @@ export class ValidationErrorPipe implements PipeTransform {
         return 'This date is a Holiday.';
 
       case errors?.['isWeekendOrPreviousDate']:
-        return 'Selected date is a  previous date or Week end.';
+        return 'Selected date is invalid to add Task.';
 
       default:
         return '';
