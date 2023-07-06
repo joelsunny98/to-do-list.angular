@@ -1,10 +1,11 @@
 <div class="container">
   <h1>TO DO LIST</h1>
   <div class="header-container">
-    <select (change)="onDropDownChange($event)" [ngModel]="selectedMonth">
-      <option value=0 disabled hidden>Select a Month</option>
-      <option *ngFor="let options of commonService.monthsArray; trackBy: trackByFn"
-        [selected]="options.value === selectedMonth" [value]="options.value">{{ options.label }}</option>
+    <select [(ngModel)]="selectedMonth">
+      <option value="0" disabled hidden>Select a Month</option>
+      <option *ngFor="let options of commonService.monthsArray; trackBy: trackByFn" [value]="options.value">
+        {{options.label}}
+      </option>
     </select>
     <button id="to-do-clear-month-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
 
@@ -54,7 +55,6 @@
           <button id="to-do-lidt-close-button-{{i}}" type="button" (click)="cancelEditing(i)"
             class="close-button">Close</button>
         </div>
-        
       </div>
     </div>
   </div>
