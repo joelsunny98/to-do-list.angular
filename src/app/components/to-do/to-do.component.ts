@@ -76,8 +76,8 @@ export class ToDoComponent implements OnInit {
    */
   buildTaskFormGroup(date: Date, task: string, remarks: string): FormGroup {
     return this.formBuilder.group({
-      date: [date, { validators: [this.isHolidayValidator(), this.weekendValidator,Validators.required], updateOn: 'blur' }],
-      task: [task, { validators: [Validators.required, Validators.minLength(10), Validators.maxLength(25)], updateOn: 'blur' }],
+      date: [date, { validators: [this.isHolidayValidator(), this.weekendValidator,Validators.required], updateOn: 'change' }],
+      task: [task, { validators: [Validators.required, Validators.minLength(10), Validators.maxLength(25)], updateOn: 'change' }],
       remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false,
       isEditMode: false
@@ -140,9 +140,11 @@ export class ToDoComponent implements OnInit {
    * @returns error
    */
   weekendValidator(control: FormControl) {
-    const selectedDay =  new Date(control.value).getDay()
-    const isWeekEnd = selectedDay === 0 || selectedDay === 6;
-    return isWeekEnd ? { isWeekend: true } : null;
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+    const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6;
+    const isPreviousDate = selectedDate < currentDate;
+    return isWeekend || isPreviousDate ? { isWeekendOrPreviousDate: true } : null;
   }
 
   /**

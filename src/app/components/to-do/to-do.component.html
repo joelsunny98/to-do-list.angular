@@ -19,42 +19,51 @@
   <div class="task-container">
     <div *ngFor="let taskGroup of taskArray.controls; let i = index; trackBy: trackByFn">
       <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth.toString()">
-        <div class="task-item" *ngIf="!taskGroup.get('isEditMode')?.value">
-          <label>{{ taskGroup.get('date').value | date }}</label>
-          <label>{{ taskGroup.get('task').value }}</label>
-          <label>{{ taskGroup.get('remarks')?.value }}</label>
-          <div *ngIf="taskGroup.get('isHoliday').value == false">
+        <div class="task-item col-md-10" *ngIf="!taskGroup.get('isEditMode')?.value">
+          <div class="col-md-3">
+            <label>{{ taskGroup.get('date').value | date }}</label>
+          </div>
+          <div class="col-md-4">
+            <label>{{ taskGroup.get('task').value }}</label>
+          </div>
+          <div class="col-md-5">
+            <label>{{ taskGroup.get('remarks')?.value }}</label>
+          </div>
+          <div class="col-md-3" *ngIf="taskGroup.get('isHoliday').value == false">
             <button id="to-do-edit-button-{{i}}" (click)="startEditing(i)" class="edit-button">Edit</button>
           </div>
-
         </div>
-        <div *ngIf="taskGroup.get('isEditMode')?.value" [formGroup]="taskForm" class="task-item">
-          <div class="form-field">
+        <div class="d-flex">
+        <div *ngIf="taskGroup.get('isEditMode')?.value" [formGroup]="taskForm" class="task-item col-md-10">
+          <div class="col-md-3">
             <input id="to-do-list-date-edit-{{i}}" type="date" formControlName="date" placeholder="Date"
               [min]="currentDate | date:'yyyy-MM-dd'">
             <div [innerText]="taskForm.controls['date'].errors | validationError:'date'" class="error-messages">
             </div>
           </div>
-          <div class="form-field">
+          <div class="col-md-3">
             <input id="to-do-list-task-edit-{{i}}" type="text" formControlName="task" placeholder="Task"
               >
             <div [innerText]="taskForm.controls['task'].errors | validationError:'task'" class="error-messages">
             </div>
           </div>
-          <div class="form-field">
+          <div class="col-md-3">
             <input id="to-do-list-remarks-edit-{{i}}" type="text" (blur)="checkFormControlValidity('remarks')"
               formControlName="remarks" placeholder="Remarks">
             <div [innerText]="taskForm.controls['remarks'].errors | validationError:'remarks'" class="error-messages">
             </div>
           </div>
-          <button id="to-do-list-submit-button-{{i}}" type="submit" (click)="finishEditing(i)"
-            [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
-          <button id="to-do-lidt-close-button-{{i}}" type="button" (click)="cancelEditing(i)"
-            class="close-button">Close</button>
+          <div class="col-md-3 d-flex">
+            <button id="to-do-lidt-close-button-{{i}}" type="button" (click)="cancelEditing(i)"
+              class="close-button">Close</button>
+            <button id="to-do-list-submit-button-{{i}}" type="submit" (click)="finishEditing(i)"
+              [disabled]="!taskForm.valid || taskForm.pristine" class="submit-button">Save</button>
+          </div>
         </div>
       </div>
+
+      </div>
     </div>
-  </div>
 
 
   <div *ngIf="isTaskFormVisible" class="form-container">
