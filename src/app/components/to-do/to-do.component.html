@@ -31,23 +31,20 @@
         <div *ngIf="taskGroup.get('editMode')?.value" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
             <input id="to-do-list-date-edit-{{i}}" type="date" formControlName="date" placeholder="Date"
-              [min]="currentDate | date:'yyyy-MM-dd'" (blur)="checkFormControlValidity('date')">
-            <div *ngIf="isFormControlInvalid('date')" class="error-messages">
-              {{ getFormControlErrorMessage('date') }}
+              [min]="currentDate | date:'yyyy-MM-dd'">
+            <div [innerText]="taskForm.controls['date'].errors | validationError:'date'" class="error-messages">
             </div>
           </div>
           <div class="form-field">
             <input id="to-do-list-task-edit-{{i}}" type="text" formControlName="task" placeholder="Task"
-              (blur)="checkFormControlValidity('task')">
-            <div *ngIf="isFormControlInvalid('task')" class="error-messages">
-              {{ getFormControlErrorMessage('task') }}
+              >
+            <div [innerText]="taskForm.controls['task'].errors | validationError:'task'" class="error-messages">
             </div>
           </div>
           <div class="form-field">
             <input id="to-do-list-remarks-edit-{{i}}" type="text" (blur)="checkFormControlValidity('remarks')"
               formControlName="remarks" placeholder="Remarks">
-            <div *ngIf="isFormControlInvalid('remarks')" class="error-messages">
-              {{ getFormControlErrorMessage('remarks') }}
+            <div [innerText]="taskForm.controls['remarks'].errors | validationError:'remarks'" class="error-messages">
             </div>
           </div>
           <button id="to-do-list-submit-button-{{i}}" type="submit" (click)="finishEditing(i)"
@@ -64,30 +61,24 @@
     <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
       <div class="form-row">
         <div class="form-field">
-          <input id="to-do-list-date-add" type="date" formControlName="date" required
-            [min]="currentDate | date:'yyyy-MM-dd'" (blur)="checkFormControlValidity('date')">
+          <input id="to-do-list-date-add" type="date" formControlName="date" [min]="currentDate | date:'yyyy-MM-dd'">
         </div>
-        <div *ngIf="isFormControlInvalid('date')" class="error-message">
-          {{ getFormControlErrorMessage('date') }}
+        <div [innerText]="taskForm.controls['date'].errors | validationError:'date'" class="error-message">
         </div>
         <div class="form-field">
-          <input id="to-do-list-task-add" (blur)="checkFormControlValidity('task')" type="text" placeholder="Task"
-            formControlName="task">
+          <input id="to-do-list-task-add" type="text" placeholder="Task" formControlName="task">
         </div>
-        <div *ngIf="isFormControlInvalid('task')" class="error-message">
-          {{ getFormControlErrorMessage('task') }}
+        <div [innerText]="taskForm.controls['task'].errors | validationError:'task'" class="error-message">
         </div>
         <div class="form-field">
-          <textarea id="to-do-list-remarks-add" (blur)="checkFormControlValidity('remarks')" formControlName="remarks"
-            placeholder="Remarks"></textarea>
+          <textarea id="to-do-list-remarks-add" formControlName="remarks" placeholder="Remarks"></textarea>
         </div>
-        <div *ngIf="isFormControlInvalid('remarks')" class="error-message">
-          {{ getFormControlErrorMessage('remarks') }}
+        <div [innerText]="taskForm.controls['remarks'].errors | validationError:'remarks'" class="error-message">
         </div>
       </div>
       <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid" class="submit-button">Add
         Task</button>
-      <button id="to-do-list-close-button" type="close" (click)="closeForm()" class="close-button">Close</button>
+      <button id="to-do-list-close-button" type="button" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
 </div>
