@@ -174,6 +174,7 @@ export class ToDoComponent implements OnInit {
    * @param index
    */
   startEditing(index: number) {
+    this.taskArray.at(index).get('isEditMode').setValue(true);
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
     this.taskArray.at(index).get('isEditMode').setValue(true);
