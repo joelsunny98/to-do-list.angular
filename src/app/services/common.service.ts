@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IHoliday, IMonth } from '../model/model';
+import { FormArray } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
@@ -75,5 +76,15 @@ export class CommonService {
     { value: 12, label: 'December' }
   ];
 
+  /**
+   * Method to sort TaskArray
+   */
+  sortTaskArray(formArray: FormArray) {
+    formArray.controls.sort((a, b) => {
+      const dateA = new Date(a.get('date').value);
+      const dateB = new Date(b.get('date').value);
+      return dateA.getTime() - dateB.getTime();
+    });
+  }
 }
 
