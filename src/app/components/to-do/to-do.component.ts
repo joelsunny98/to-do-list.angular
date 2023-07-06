@@ -87,7 +87,7 @@ export class ToDoComponent implements OnInit {
       task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
       remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false,
-      editMode: false
+      isEditMode: false
     });
   }
 
@@ -106,7 +106,6 @@ export class ToDoComponent implements OnInit {
 
       this.taskForm.reset();
       this.selectedMonth = month;
-      console.log(this.taskArray.value)
     }
     this.isTaskFormVisible = false;
   }
@@ -184,7 +183,7 @@ export class ToDoComponent implements OnInit {
   startEditing(index: number) {
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
-    this.taskArray.at(index).get('editMode').setValue(true);
+    this.taskArray.at(index).get('isEditMode').setValue(true);
   }
 
   /**
@@ -197,7 +196,7 @@ export class ToDoComponent implements OnInit {
     if (taskGroup.valid) {
       taskGroup.patchValue(this.taskForm.value);
     }
-    this.taskArray.at(index).get('editMode').setValue(false);
+    this.taskArray.at(index).get('isEditMode').setValue(false);
     this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset()
   }
@@ -207,7 +206,7 @@ export class ToDoComponent implements OnInit {
    *
    */
   cancelEditing(index: number) {
-    this.taskArray.at(index).get('editMode').setValue(false);
+    this.taskArray.at(index).get('isEditMode').setValue(false);
     this.taskForm.reset();
   }
 
