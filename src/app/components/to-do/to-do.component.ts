@@ -22,10 +22,10 @@ export class ToDoComponent implements OnInit {
   taskForm: FormGroup;
   taskArray: FormArray;
   holidayFormArray: FormArray;
-  editMode: boolean[] = [];
   selectedMonth: number = new Date().getMonth() + 1;
   isTaskFormVisible = false;
   currentDate = new Date();
+  formControlErrors: { [key: string]: string } = {};
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -40,18 +40,14 @@ export class ToDoComponent implements OnInit {
     this.taskForm = this.buildTaskFormGroup(new Date(), '', '');
   }
 
+  /**
+   * 
+   * @param taskGroup 
+   * @returns 
+   */
   trackByFn(taskGroup: any): number {
     return taskGroup.id;
   }
-
-  /**
-   * Method to check to sort task according to the month.
-   *
-   * @param date
-   * @returns boolean
-   */
-  isThisMonth = (date: string) => new Date(date).getMonth() + 1 === this.selectedMonth ? true : false;
-
 
   /**
    * Method to get the drop down value of the month.
@@ -65,16 +61,15 @@ export class ToDoComponent implements OnInit {
    *
    * @returns Holiday Form Array
    */
-  getHolidays() {
-    for (const holiday of this.commonService.holidayArray) {
+  getHolidays(): FormArray {
+    this.commonService.holidayArray.forEach((holiday) => {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
         task: holiday.task,
         isHoliday: true
       });
       this.holidayFormArray.push(formGroup)
-    }
-
+    })
     return this.holidayFormArray;
   }
 
@@ -91,10 +86,14 @@ export class ToDoComponent implements OnInit {
       date: [date, [Validators.required, this.weekendValidator, this.isHolidayValidator.bind(this)]],
       task: [task, [Validators.required, Validators.minLength(10), Validators.maxLength(25)]],
       remarks: [remarks, Validators.maxLength(50)],
-      isHoliday: false
+      isHoliday: false,
+      editMode: false
     });
   }
 
+  /**
+   * Method to add Form Group for task
+   */
   addFormGroup() {
     if (this.taskForm.valid) {
       const { date, task, remarks } = this.taskForm.value;
@@ -103,21 +102,54 @@ export class ToDoComponent implements OnInit {
 
       const month = new Date(date).getMonth() + 1;
 
-      this.taskArray.controls.sort((a, b) => {  // Sort the taskArray
-        const dateA = new Date(a.get('date').value);
-        const dateB = new Date(b.get('date').value);
-        return dateA.getTime() - dateB.getTime();
-      });
+      this.commonService.sortTaskArray(this.taskArray)
 
       this.taskForm.reset();
       this.selectedMonth = month;
-      this.editMode = Array(this.taskArray.length).fill(false);
+      console.log(this.taskArray.value)
     }
     this.isTaskFormVisible = false;
   }
 
   /**
-   * Method to Validate is selected Date is a week day.
+   * Method to check form control validity
+   * 
+   * @param controlName
+   */
+  checkFormControlValidity(controlName: string) {
+    const control = this.taskForm.get(controlName);
+    if (control.invalid && control.touched) {
+      this.formControlErrors[controlName] = this.getFormControlErrorMessage(controlName);
+    } else {
+      delete this.formControlErrors[controlName];
+    }
+  }
+
+  /**
+   * Method to check if FormControlError has property
+   * 
+   * @param controlName 
+   * @returns boolean
+   */
+  isFormControlInvalid(controlName: string): boolean {
+    return this.formControlErrors.hasOwnProperty(controlName);
+  }
+
+  /**
+   * Method to get the Form Control Error Message
+   * 
+   * @param controlName 
+   * @returns string
+   */
+  getFormControlErrorMessage(controlName: string): string {
+    const control = this.taskForm.get(controlName);
+    const errors = control.errors;
+    return new ValidationErrorPipe().transform(errors, controlName);
+  }
+
+
+  /**
+   * Method to Validate if selected Date is a week day.
    *
    * @param control
    * @returns error
@@ -129,6 +161,12 @@ export class ToDoComponent implements OnInit {
     return isWeekEnd ? { isWeekend: true } : null;
   }
 
+  /**
+   * Method to Validate if selected Date is a Holiday 
+   * 
+   * @param control 
+   * @returns error
+   */
   isHolidayValidator(control: FormControl) {
     const selectedDate = new Date(control.value);
     const invalid = this.taskArray.controls.some((holiday: AbstractControl) => {
@@ -144,10 +182,9 @@ export class ToDoComponent implements OnInit {
    * @param index
    */
   startEditing(index: number) {
-    this.editMode = Array(this.taskArray.length).fill(false);
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
-    this.editMode[index] = true;
+    this.taskArray.at(index).get('editMode').setValue(true);
   }
 
   /**
@@ -160,23 +197,24 @@ export class ToDoComponent implements OnInit {
     if (taskGroup.valid) {
       taskGroup.patchValue(this.taskForm.value);
     }
-    this.editMode[index] = false;
+    this.taskArray.at(index).get('editMode').setValue(false);
+    this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset()
   }
 
   /**
-* Method to close the task form while editing and reset the entries
-*
-*/
+   * Method to close the task form while editing and reset the entries
+   *
+   */
   cancelEditing(index: number) {
-    this.editMode[index] = false;
+    this.taskArray.at(index).get('editMode').setValue(false);
     this.taskForm.reset();
   }
 
   /**
- * Method to close the task form while adding a task and reset the entries
- *
- */
+   * Method to close the task form while adding a task and reset the entries
+   *
+   */
   closeForm() {
     this.taskForm.reset();
     this.isTaskFormVisible = false;

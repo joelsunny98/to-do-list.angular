@@ -11,36 +11,30 @@ export class ValidationErrorPipe implements PipeTransform {
       return '';
     }
 
-    switch (fieldName) {
-      case 'date':
-        if (errors['required']) {
-          return 'Date is required.';
-        }
-        break;
+    switch (true) {
+      case errors?.['required'] && fieldName === 'date':
+        return 'Date is required.';
 
-      case 'task':
-        if (errors['required']) {
-          return 'Task is required.';
-        }
-        break;
+      case errors?.['required'] && fieldName === 'task':
+        return 'Task is required.';
+
+      case errors?.['isWeekend']:
+        return 'Selected date falls on a weekend.';
+
+      case errors?.['minlength'] && fieldName === 'task':
+        return 'This field must be at least ' + errors['minlength'].requiredLength + ' characters long.';
+
+      case errors?.['maxlength'] && fieldName === 'task':
+        return 'This field cannot exceed ' + errors['maxlength'].requiredLength + ' characters.';
+
+      case errors?.['maxlength'] && fieldName === 'remarks':
+        return 'This field cannot exceed ' + errors['maxlength'].requiredLength + ' characters.';
+
+      case errors?.['isHoliday']:
+        return 'This date is a Holiday.';
+
+      default:
+        return '';
     }
-
-    if (errors['isWeekend']) {
-      return 'Selected date falls on a weekend.';
-    }
-
-    if (errors['minlength']) {
-      return 'This field must be at least ' + errors['minlength'].requiredLength + ' characters long.';
-    }
-
-    if (errors['maxlength']) {
-      return 'This field cannot exceed ' + errors['maxlength'].requiredLength + ' characters.';
-    }
-
-    if (errors['isHoliday']) {
-      return 'This date is a Holiday.';
-    }
-
-    return '';
   }
 }
