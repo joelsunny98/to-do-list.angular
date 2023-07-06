@@ -94,11 +94,7 @@ export class ToDoComponent implements OnInit {
 
       const month = new Date(date).getMonth() + 1;
 
-      this.taskArray.controls.sort((a, b) => {
-        const dateA = new Date(a.get('date').value);
-        const dateB = new Date(b.get('date').value);
-        return dateA.getTime() - dateB.getTime();
-      });
+      this.commonService.sortTaskArray(this.taskArray)
 
       this.taskForm.reset();
       this.selectedMonth = month;
@@ -171,6 +167,7 @@ export class ToDoComponent implements OnInit {
       taskGroup.patchValue(this.taskForm.value);
     }
     this.taskArray.at(index).get('editMode').setValue(false);
+    this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset()
   }
 
