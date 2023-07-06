@@ -40,6 +40,11 @@ export class ToDoComponent implements OnInit {
     this.taskForm = this.buildTaskFormGroup(new Date(), '', '');
   }
 
+  /**
+   * 
+   * @param taskGroup 
+   * @returns 
+   */
   trackByFn(taskGroup: any): number {
     return taskGroup.id;
   }
@@ -49,7 +54,7 @@ export class ToDoComponent implements OnInit {
    *
    * @returns Holiday Form Array
    */
-  getHolidays() {
+  getHolidays(): FormArray {
     this.commonService.holidayArray.forEach((holiday) => {
       const formGroup = this.formBuilder.group({
         date: holiday.date,
@@ -79,6 +84,9 @@ export class ToDoComponent implements OnInit {
     });
   }
 
+  /**
+   * Method to add Form Group for task
+   */
   addFormGroup() {
     if (this.taskForm.valid) {
       const { date, task, remarks } = this.taskForm.value;
@@ -96,6 +104,11 @@ export class ToDoComponent implements OnInit {
     this.isTaskFormVisible = false;
   }
 
+  /**
+   * Method to check form control validity
+   * 
+   * @param controlName
+   */
   checkFormControlValidity(controlName: string) {
     const control = this.taskForm.get(controlName);
     if (control.invalid && control.touched) {
@@ -105,11 +118,23 @@ export class ToDoComponent implements OnInit {
     }
   }
 
-  isFormControlInvalid(controlName: string) {
+  /**
+   * Method to check if FormControlError has property
+   * 
+   * @param controlName 
+   * @returns boolean
+   */
+  isFormControlInvalid(controlName: string): boolean {
     return this.formControlErrors.hasOwnProperty(controlName);
   }
 
-  getFormControlErrorMessage(controlName: string) {
+  /**
+   * Method to get the Form Control Error Message
+   * 
+   * @param controlName 
+   * @returns string
+   */
+  getFormControlErrorMessage(controlName: string): string {
     const control = this.taskForm.get(controlName);
     const errors = control.errors;
     return new ValidationErrorPipe().transform(errors, controlName);
@@ -117,7 +142,7 @@ export class ToDoComponent implements OnInit {
 
 
   /**
-   * Method to Validate is selected Date is a week day.
+   * Method to Validate if selected Date is a week day.
    *
    * @param control
    * @returns error
@@ -129,6 +154,12 @@ export class ToDoComponent implements OnInit {
     return isWeekEnd ? { isWeekend: true } : null;
   }
 
+  /**
+   * Method to Validate if selected Date is a Holiday 
+   * 
+   * @param control 
+   * @returns error
+   */
   isHolidayValidator(control: FormControl) {
     const selectedDate = new Date(control.value);
     const invalid = this.taskArray.controls.some((holiday: AbstractControl) => {
@@ -165,18 +196,18 @@ export class ToDoComponent implements OnInit {
   }
 
   /**
-* Method to close the task form while editing and reset the entries
-*
-*/
+   * Method to close the task form while editing and reset the entries
+   *
+   */
   cancelEditing(index: number) {
     this.taskArray.at(index).get('editMode').setValue(false);
     this.taskForm.reset();
   }
 
   /**
- * Method to close the task form while adding a task and reset the entries
- *
- */
+   * Method to close the task form while adding a task and reset the entries
+   *
+   */
   closeForm() {
     this.taskForm.reset();
     this.isTaskFormVisible = false;
