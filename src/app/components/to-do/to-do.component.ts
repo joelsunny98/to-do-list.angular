@@ -80,7 +80,7 @@ export class ToDoComponent implements OnInit {
       task: [task, { validators: [Validators.required, Validators.minLength(10), Validators.maxLength(25)], updateOn: 'blur' }],
       remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false,
-      editMode: false
+      isEditMode: false
     });
   }
 
@@ -88,19 +88,11 @@ export class ToDoComponent implements OnInit {
    * Method to add Form Group for task
    */
   addFormGroup() {
-    if (this.taskForm.valid) {
-      const { date, task, remarks } = this.taskForm.value;
-      const newTaskFormGroup = this.buildTaskFormGroup(date, task, remarks); // Call the buildTaskFormGroup function
-      this.taskArray.push(newTaskFormGroup);
-
-      const month = new Date(date).getMonth() + 1;
-
-      this.commonService.sortTaskArray(this.taskArray)
-
-      this.taskForm.reset();
-      this.selectedMonth = month;
-      console.log(this.taskArray.value)
-    }
+    const { date, task, remarks } = this.taskForm.value;
+    this.taskArray.push(this.buildTaskFormGroup(date, task, remarks));
+    this.selectedMonth = new Date(date).getMonth() + 1;
+    this.commonService.sortTaskArray(this.taskArray)
+    this.taskForm.reset();
     this.isTaskFormVisible = false;
   }
 
@@ -148,9 +140,8 @@ export class ToDoComponent implements OnInit {
    * @returns error
    */
   weekendValidator(control: FormControl) {
-    const selectedDate = new Date(control.value);
-    const day = selectedDate.getDay()
-    const isWeekEnd = day === 0 || day === 6;
+    const selectedDay =  new Date(control.value).getDay()
+    const isWeekEnd = selectedDay === 0 || selectedDay === 6;
     return isWeekEnd ? { isWeekend: true } : null;
   }
 
@@ -179,7 +170,7 @@ export class ToDoComponent implements OnInit {
   startEditing(index: number) {
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
-    this.taskArray.at(index).get('editMode').setValue(true);
+    this.taskArray.at(index).get('isEditMode').setValue(true);
   }
 
   /**
@@ -188,11 +179,8 @@ export class ToDoComponent implements OnInit {
    * @param index
    */
   finishEditing(index: number) {
-    const taskGroup = this.taskArray.at(index) as FormGroup;
-    if (taskGroup.valid) {
-      taskGroup.patchValue(this.taskForm.value);
-    }
-    this.taskArray.at(index).get('editMode').setValue(false);
+    this.taskArray.at(index).patchValue(this.taskForm.value)
+    this.taskArray.at(index).get('isEditMode').setValue(false);
     this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset()
   }
@@ -202,7 +190,7 @@ export class ToDoComponent implements OnInit {
    *
    */
   cancelEditing(index: number) {
-    this.taskArray.at(index).get('editMode').setValue(false);
+    this.taskArray.at(index).get('isEditMode').setValue(false);
     this.taskForm.reset();
   }
 

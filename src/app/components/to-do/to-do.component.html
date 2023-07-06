@@ -19,7 +19,7 @@
   <div class="task-container">
     <div *ngFor="let taskGroup of taskArray.controls; let i = index; trackBy: trackByFn">
       <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth.toString()">
-        <div class="task-item" *ngIf="!taskGroup.get('editMode')?.value">
+        <div class="task-item" *ngIf="!taskGroup.get('isEditMode')?.value">
           <label>{{ taskGroup.get('date').value | date }}</label>
           <label>{{ taskGroup.get('task').value }}</label>
           <label>{{ taskGroup.get('remarks')?.value }}</label>
@@ -28,7 +28,7 @@
           </div>
 
         </div>
-        <div *ngIf="taskGroup.get('editMode')?.value" [formGroup]="taskForm" class="task-item">
+        <div *ngIf="taskGroup.get('isEditMode')?.value" [formGroup]="taskForm" class="task-item">
           <div class="form-field">
             <input id="to-do-list-date-edit-{{i}}" type="date" formControlName="date" placeholder="Date"
               [min]="currentDate | date:'yyyy-MM-dd'">
