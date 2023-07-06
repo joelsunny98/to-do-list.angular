@@ -156,9 +156,11 @@ export class ToDoComponent implements OnInit {
    */
   weekendValidator(control: FormControl) {
     const selectedDate = new Date(control.value);
-    const day = selectedDate.getDay()
-    const isWeekEnd = day === 0 || day === 6;
-    return isWeekEnd ? { isWeekend: true } : null;
+    const currentDate = new Date();
+    const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6;
+    const isPreviousDate = selectedDate < currentDate;
+  
+    return isWeekend || isPreviousDate ? { isWeekendOrPreviousDate: true } : null;
   }
 
   /**
