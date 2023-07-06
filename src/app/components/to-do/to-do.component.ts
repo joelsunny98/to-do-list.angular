@@ -45,13 +45,6 @@ export class ToDoComponent implements OnInit {
   }
 
   /**
-   * Method to get the drop down value of the month.
-   *
-   * @param event
-   */
-  onDropDownChange = (event: Event) => this.selectedMonth = parseInt((event.target as HTMLSelectElement).value);
-
-  /**
    * Method to generate form array with Holidays.
    *
    * @returns Holiday Form Array
