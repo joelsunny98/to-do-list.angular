@@ -2,17 +2,20 @@
   <h1>TO DO LIST</h1>
   <div class="header-container">
     <select [(ngModel)]="selectedMonth">
-      <option value="0" disabled hidden>Select a Month</option>
+      <option value="0" disabled>Select a Month</option>
       <option *ngFor="let options of commonService.monthsArray; trackBy: trackByFn" [value]="options.value">
         {{options.label}}
       </option>
     </select>
-    <button id="to-do-clear-month-button" class="clear-icon" (click)="selectedMonth = 0">↻</button>
+    <button id="to-do-clear-month-button" class="clear-icon" (click)="selectedMonth = '0'">↻</button>
   </div>
 
   <div class="task-container">
     <div *ngFor="let taskGroup of taskArray.controls; let i = index; trackBy: trackByFn">
-      <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth.toString()">
+    <!-- <p>{{taskGroup.get('date').value | date:'M'}}</p>
+    <p>{{selectedMonth}}</p>  -->
+    
+    <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth">
         <div class="row justify-content-md-center">
           <div class="col">
             <div class="task-item" *ngIf="!taskGroup.get('isEditMode')?.value">
@@ -26,7 +29,7 @@
                 <div class="col">
                   <label>{{ taskGroup.get('remarks')?.value }}</label>
                 </div>
-                <div class="col" *ngIf="taskGroup.get('isHoliday').value == false">
+                <div class="col" *ngIf="!taskGroup.get('isHoliday').value">
                   <button id="to-do-edit-button-{{i}}" (click)="startEditing(i)" class="edit-button">Edit</button>
                 </div>
               </div>
@@ -38,8 +41,7 @@
       <div class="d-flex">
         <div *ngIf="taskGroup.get('isEditMode')?.value" [formGroup]="taskForm" class="task-item col-md-10">
           <div class="col-md-4">
-            <input id="to-do-list-date-edit-{{i}}" type="date" formControlName="date" placeholder="Date"
-              [min]="currentDate | date:'yyyy-MM-dd'">
+            <input id="to-do-list-date-edit-{{i}}" type="date" formControlName="date" placeholder="Date">
             <div [innerText]="taskForm.controls['date'].errors | validationError:'date'" class="error-messages">
             </div>
           </div>
@@ -49,8 +51,7 @@
             </div>
           </div>
           <div class="col-md-3">
-            <input id="to-do-list-remarks-edit-{{i}}" type="text" (blur)="checkFormControlValidity('remarks')"
-              formControlName="remarks" placeholder="Remarks">
+            <input id="to-do-list-remarks-edit-{{i}}" type="text" formControlName="remarks" placeholder="Remarks">
             <div [innerText]="taskForm.controls['remarks'].errors | validationError:'remarks'" class="error-messages">
             </div>
           </div>
@@ -67,7 +68,7 @@
 
   <div class="add-button-container">
     <button *ngIf="!isTaskFormVisible" id="to-do-add-task-button" class="add-button"
-      (click)="isTaskFormVisible = !isTaskFormVisible">+ Add Task
+      (click)="isTaskFormVisible = !isTaskFormVisible" [disabled]="isAddTaskDisabled" >+ Add Task
     </button>
   </div>
 
@@ -75,7 +76,7 @@
     <form [formGroup]="taskForm" (ngSubmit)="addFormGroup()">
       <div class="form-row">
         <div class="form-field">
-          <input id="to-do-list-date-add" type="date" formControlName="date" [min]="currentDate | date:'yyyy-MM-dd'">
+          <input id="to-do-list-date-add" type="date" formControlName="date">
         </div>
         <div [innerText]="taskForm.controls['date'].errors | validationError:'date'" class="error-message">
         </div>
@@ -90,8 +91,8 @@
         <div [innerText]="taskForm.controls['remarks'].errors | validationError:'remarks'" class="error-message">
         </div>
       </div>
-      <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid" class="submit-button">Add
-        Task</button>
+      <button id="to-do-list-submit-button" type="submit" [disabled]="!taskForm.valid"
+        class="submit-button">Add</button>
       <button id="to-do-list-close-button" type="button" (click)="closeForm()" class="close-button">Close</button>
     </form>
   </div>
