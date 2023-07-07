@@ -10,7 +10,7 @@ export class ValidationErrorPipe implements PipeTransform {
     if (!errors) {
       return '';
     }
-
+    
     switch (true) {
       case errors?.['required'] && fieldName === 'date':
         return 'Date is required.';
@@ -34,7 +34,7 @@ export class ValidationErrorPipe implements PipeTransform {
         return 'This date is a Holiday.';
 
       case errors?.['isPreviousDate'] && fieldName === 'date':
-        return 'Select valid date to add Task.';
+        return 'Selected date is in the past.';
 
       default:
         return '';

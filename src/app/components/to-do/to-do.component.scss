@@ -109,21 +109,30 @@ select {
   padding: 5px;
   border-radius: 4px;
   margin-left: 10px;
-  width: 150px;
+  width: 175px;
 }
 
+.add-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .form-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
+
 .task-container {
   justify-content: center;
   padding: 10px;
   margin-top: 10px;
   width: auto; 
-}
+
+    grid-gap: 20px;
+    align-items: center; /* Fix rows vertically */
+  }
+
 
 .edit-button:hover {
   background-color: #45a049;
