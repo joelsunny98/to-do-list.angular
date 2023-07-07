@@ -22,10 +22,13 @@ export class ToDoComponent implements OnInit {
   taskForm: FormGroup;
   taskArray: FormArray;
   holidayFormArray: FormArray;
-  selectedMonth: number = new Date().getMonth() + 1;
+  selectedMonth: string = (new Date().getMonth() + 1).toString();
   isTaskFormVisible = false;
+  isEditTaskDisabled = false;
+  isAddTaskDisabled = false;
   currentDate = new Date();
   formControlErrors: { [key: string]: string } = {};
+  isEditVisible = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -90,34 +93,11 @@ export class ToDoComponent implements OnInit {
   addFormGroup(): void {
     const { date, task, remarks } = this.taskForm.value;
     this.taskArray.push(this.buildTaskFormGroup(date, task, remarks));
-    this.selectedMonth = new Date(date).getMonth() + 1;
+    this.selectedMonth = (new Date(date).getMonth() + 1).toString();
     this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset();
     this.isTaskFormVisible = false;
-  }
-
-  /**
-   * Method to check form control validity
-   *
-   * @param controlName
-   */
-  checkFormControlValidity(controlName: string): void {
-    const control = this.taskForm.get(controlName);
-    if (control.invalid && control.touched) {
-      this.formControlErrors[controlName] = this.getFormControlErrorMessage(controlName);
-    } else {
-      delete this.formControlErrors[controlName];
-    }
-  }
-
-  /**
-   * Method to check if FormControlError has property
-   *
-   * @param controlName
-   * @returns boolean
-   */
-  isFormControlInvalid(controlName: string): boolean {
-    return this.formControlErrors.hasOwnProperty(controlName);
+    
   }
 
   /**
@@ -144,7 +124,14 @@ export class ToDoComponent implements OnInit {
     const currentDate = new Date();
     const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6;
     const isPreviousDate = selectedDate < currentDate;
-    return isWeekend || isPreviousDate ? { isPreviousDate: true } : null;
+  
+    if (isWeekend) {
+      return { isWeekend: true };
+    } else if (isPreviousDate) {
+      return { isPreviousDate: true };
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -166,13 +153,13 @@ export class ToDoComponent implements OnInit {
 
   /**
    * Method to patch value to edit form and start editing Mode.
-   *
    * @param index
    */
   startEditing(index: number): void {
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
     this.taskArray.at(index).get('isEditMode').setValue(true);
+    this.isAddTaskDisabled = true;
   }
 
   /**
@@ -185,20 +172,20 @@ export class ToDoComponent implements OnInit {
     this.taskArray.at(index).get('isEditMode').setValue(false);
     this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset()
+    this.isAddTaskDisabled = false;
   }
 
   /**
    * Method to close the task form while editing and reset the entries
-   *
    */
   cancelEditing(index: number): void {
     this.taskArray.at(index).get('isEditMode').setValue(false);
     this.taskForm.reset();
+    this.isAddTaskDisabled = false;
   }
 
   /**
    * Method to close the task form while adding a task and reset the entries
-   *
    */
   closeForm(): void {
     this.taskForm.reset();
