@@ -89,7 +89,7 @@ export class ToDoComponent implements OnInit {
   /**
    * Method to add Form Group for task
    */
-  addFormGroup() {
+  addFormGroup(): void {
     const { date, task, remarks } = this.taskForm.value;
     this.taskArray.push(this.buildTaskFormGroup(date, task, remarks));
     this.selectedMonth = (new Date(date).getMonth() + 1).toString();
@@ -161,7 +161,7 @@ export class ToDoComponent implements OnInit {
    * Method to patch value to edit form and start editing Mode.
    * @param index
    */
-  startEditing(index: number) {
+  startEditing(index: number): void {
     const taskGroup = this.taskArray.at(index) as FormGroup;
     this.taskForm.patchValue(taskGroup.value);
     this.taskArray.at(index).get('isEditMode').setValue(true);
@@ -173,7 +173,7 @@ export class ToDoComponent implements OnInit {
    *
    * @param index
    */
-  finishEditing(index: number) {
+  finishEditing(index: number): void{
     this.taskArray.at(index).patchValue(this.taskForm.value)
     this.taskArray.at(index).get('isEditMode').setValue(false);
     this.commonService.sortTaskArray(this.taskArray)
@@ -184,7 +184,7 @@ export class ToDoComponent implements OnInit {
   /**
    * Method to close the task form while editing and reset the entries
    */
-  cancelEditing(index: number) {
+  cancelEditing(index: number): void {
     this.taskArray.at(index).get('isEditMode').setValue(false);
     this.taskForm.reset();
     this.isAddTaskDisabled = false;
@@ -193,7 +193,7 @@ export class ToDoComponent implements OnInit {
   /**
    * Method to close the task form while adding a task and reset the entries
    */
-  closeForm() {
+  closeForm(): void {
     this.taskForm.reset();
     this.isTaskFormVisible = false;
     this.isEditTaskDisabled = false;
