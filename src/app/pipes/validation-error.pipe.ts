@@ -18,7 +18,7 @@ export class ValidationErrorPipe implements PipeTransform {
       case errors?.['required'] && fieldName === 'task':
         return 'Task is required.';
 
-      case errors?.['isWeekend']:
+      case errors?.['isWeekend'] && fieldName === 'date':
         return 'Selected date falls on a weekend.';
 
       case errors?.['minlength'] && fieldName === 'task':
@@ -30,11 +30,11 @@ export class ValidationErrorPipe implements PipeTransform {
       case errors?.['maxlength'] && fieldName === 'remarks':
         return 'This field cannot exceed ' + errors['maxlength'].requiredLength + ' characters.';
 
-      case errors?.['isHoliday']:
+      case errors?.['isHoliday'] && fieldName === 'date':
         return 'This date is a Holiday.';
 
-      case errors?.['isWeekendOrPreviousDate']:
-        return 'Selected date is invalid to add Task.';
+      case errors?.['isPreviousDate'] && fieldName === 'date':
+        return 'Select valid date to add Task.';
 
       default:
         return '';

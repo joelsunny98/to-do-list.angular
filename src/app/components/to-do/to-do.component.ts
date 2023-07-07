@@ -144,7 +144,7 @@ export class ToDoComponent implements OnInit {
     const currentDate = new Date();
     const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6;
     const isPreviousDate = selectedDate < currentDate;
-    return isWeekend || isPreviousDate ? { isWeekendOrPreviousDate: true } : null;
+    return isWeekend || isPreviousDate ? { isPreviousDate: true } : null;
   }
 
   /**

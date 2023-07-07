@@ -41,11 +41,49 @@ select {
   color: #999;
 }
 
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
 .task-item {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 10px;
-  width: 100%;
+}
+
+.task-col {
+  width: 500px; /* Set a fixed width for the task column */
+}
+
+.remarks-col {
+  flex: 1; /* Allow the remarks column to take remaining space */
+}
+.task-col,
+.remarks-col {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-item .row {
+  flex-wrap: nowrap;
+}
+
+.task-item .row {
+  flex-wrap: nowrap;
+}
+
+.task-item .col {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .task-item label {
@@ -62,20 +100,6 @@ select {
 .task-item input[type="text"] {
   margin-right: 10px;
 }
-
-.task-item button {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.task-item button:hover {
-  background-color: #45a049;
-}
-
 
 .add-button {
   background-color: #4CAF50;
@@ -98,8 +122,11 @@ select {
   justify-content: center;
   padding: 10px;
   margin-top: 10px;
-  width: auto;
- 
+  width: auto; 
+}
+
+.edit-button:hover {
+  background-color: #45a049;
 }
 
 .edit-button {
@@ -107,19 +134,9 @@ select {
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 2px;
-  margin-right: 5px;
-  margin-bottom: 10px;
-  padding: 3px;
-  height: 30px;
   border-radius: 4px;
   width: 100px;
 }
-
-.edit-button:hover {
-  background-color: #45a049;
-}
-
 .form-container {
   display: flex;
   flex-wrap: wrap;
@@ -220,4 +237,5 @@ button[type="submit"]:disabled {
   cursor: pointer;
   margin-left: 10px;
   width: 150px;
+  margin-top: 10px;
 }
