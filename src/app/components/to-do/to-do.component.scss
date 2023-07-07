@@ -76,21 +76,15 @@ select {
   flex-wrap: nowrap;
 }
 
-.task-item .row {
-  flex-wrap: nowrap;
+.col{
+  margin-left: 25px; /* Adjust the margin value as needed */
 }
 
-.task-item .col {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .task-item label {
   margin-right: 10px;
   margin-bottom: 5px;
   width: 100px;
-  text-align: left;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
