@@ -24,11 +24,10 @@ export class ToDoComponent implements OnInit {
   holidayFormArray: FormArray;
   selectedMonth: string = (new Date().getMonth() + 1).toString();
   isTaskFormVisible = false;
-  isEditTaskDisabled = false;
   isAddTaskDisabled = false;
   currentDate = new Date();
   formControlErrors: { [key: string]: string } = {};
-  isEditVisible = false;
+  isEditTaskDisabled = false;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -97,6 +96,7 @@ export class ToDoComponent implements OnInit {
     this.commonService.sortTaskArray(this.taskArray)
     this.taskForm.reset();
     this.isTaskFormVisible = false;
+    this.isEditTaskDisabled = false;
     
   }
 
@@ -151,6 +151,12 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  addTask() {
+    this.isTaskFormVisible = true;
+    this.isEditTaskDisabled = true;
+  }
+
+
   /**
    * Method to patch value to edit form and start editing Mode.
    * @param index
@@ -190,5 +196,6 @@ export class ToDoComponent implements OnInit {
   closeForm() {
     this.taskForm.reset();
     this.isTaskFormVisible = false;
+    this.isEditTaskDisabled = false;
   }
 }
