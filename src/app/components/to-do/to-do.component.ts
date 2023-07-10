@@ -101,19 +101,6 @@ export class ToDoComponent implements OnInit {
   }
 
   /**
-   * Method to get the Form Control Error Message
-   *
-   * @param controlName
-   * @returns string
-   */
-  getFormControlErrorMessage(controlName: string): string {
-    const control = this.taskForm.get(controlName);
-    const errors = control.errors;
-    return new ValidationErrorPipe().transform(errors, controlName);
-  }
-
-
-  /**
    * Method to Validate if selected Date is a week day.
    *
    * @param control
@@ -150,7 +137,7 @@ export class ToDoComponent implements OnInit {
       return invalid ? { isHoliday: true } : null
     }
   }
-  
+
   /**
    * method to modify boolean
    */
