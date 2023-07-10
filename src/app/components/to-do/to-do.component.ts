@@ -78,7 +78,7 @@ export class ToDoComponent implements OnInit {
    */
   buildTaskFormGroup(date: Date, task: string, remarks: string): FormGroup {
     return this.formBuilder.group({
-      date: [date, { validators: [this.isHolidayValidator(), this.weekendValidator,Validators.required], updateOn: 'change' }],
+      date: [date, { validators: [this.isHolidayValidator(), this.weekendValidator, Validators.required], updateOn: 'change' }],
       task: [task, { validators: [Validators.required, Validators.minLength(10), Validators.maxLength(25)], updateOn: 'change' }],
       remarks: [remarks, Validators.maxLength(50)],
       isHoliday: false,
@@ -97,21 +97,8 @@ export class ToDoComponent implements OnInit {
     this.taskForm.reset();
     this.isTaskFormVisible = false;
     this.isEditTaskDisabled = false;
-    
-  }
 
-  /**
-   * Method to get the Form Control Error Message
-   *
-   * @param controlName
-   * @returns string
-   */
-  getFormControlErrorMessage(controlName: string): string {
-    const control = this.taskForm.get(controlName);
-    const errors = control.errors;
-    return new ValidationErrorPipe().transform(errors, controlName);
   }
-
 
   /**
    * Method to Validate if selected Date is a week day.
@@ -124,7 +111,7 @@ export class ToDoComponent implements OnInit {
     const currentDate = new Date();
     const isWeekend = selectedDate.getDay() === 0 || selectedDate.getDay() === 6;
     const isPreviousDate = selectedDate < currentDate;
-  
+
     if (isWeekend) {
       return { isWeekend: true };
     } else if (isPreviousDate) {
@@ -151,6 +138,9 @@ export class ToDoComponent implements OnInit {
     }
   }
 
+  /**
+   * method to modify boolean
+   */
   addTask() {
     this.isTaskFormVisible = true;
     this.isEditTaskDisabled = true;
@@ -173,7 +163,7 @@ export class ToDoComponent implements OnInit {
    *
    * @param index
    */
-  finishEditing(index: number): void{
+  finishEditing(index: number): void {
     this.taskArray.at(index).patchValue(this.taskForm.value)
     this.taskArray.at(index).get('isEditMode').setValue(false);
     this.commonService.sortTaskArray(this.taskArray)

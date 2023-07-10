@@ -12,22 +12,23 @@
 
   <div class="task-container">
     <div *ngFor="let taskGroup of taskArray.controls; let i = index; trackBy: trackByFn">
-    <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth">
-        <div class="row justify-content-md-center">
-          <div class="col">
+      <div *ngIf="(taskGroup.get('date').value | date:'M') === selectedMonth">
+        <div class="row">
+          <div class="col-md">
             <div class="task-item" *ngIf="!taskGroup.get('isEditMode')?.value">
               <div class="row">
-                <div class="col-md">
-                  <label for="date">{{ taskGroup.get('date').value | date }}</label>
+                <div class="col-mx">
+                  <label for="to-do-date">{{ taskGroup.get('date').value | date }}</label>
                 </div>
                 <div class="col">
-                  <label for="task">{{ taskGroup.get('task').value }}</label>
+                  <label for="to-do-task">{{ taskGroup.get('task').value }}</label>
                 </div>
                 <div class="col">
-                  <label for="remarks">{{ taskGroup.get('remarks')?.value }}</label>
+                  <label for="to-do-remarks" [title]="taskGroup.get('remarks')?.value">{{ taskGroup.get('remarks')?.value }}</label>
                 </div>
                 <div class="col" *ngIf="!taskGroup.get('isHoliday').value">
-                  <button id="to-do-edit-button-{{i}}" (click)="startEditing(i)" class="edit-button" [disabled]="isEditTaskDisabled">Edit</button>
+                  <button id="to-do-edit-button-{{i}}" (click)="startEditing(i)" class="edit-button"
+                    [disabled]="isEditTaskDisabled">Edit</button>
                 </div>
               </div>
             </div>
@@ -64,8 +65,8 @@
   </div>
 
   <div class="add-button-container">
-    <button *ngIf="!isTaskFormVisible" id="to-do-add-task-button" class="add-button"
-    (click)="addTask()" [disabled]="isAddTaskDisabled" >+ Add Task
+    <button *ngIf="!isTaskFormVisible" id="to-do-add-task-button" class="add-button" (click)="addTask()"
+      [disabled]="isAddTaskDisabled">+ Add Task
     </button>
   </div>
 

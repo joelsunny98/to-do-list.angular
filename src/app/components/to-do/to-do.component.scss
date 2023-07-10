@@ -54,11 +54,11 @@ select {
 }
 
 .task-col {
-  width: 500px; /* Set a fixed width for the task column */
+  width: 500px;
 }
 
 .remarks-col {
-  flex: 1; /* Allow the remarks column to take remaining space */
+  flex: 1;
 }
 .task-col,
 .remarks-col {
@@ -76,21 +76,15 @@ select {
   flex-wrap: nowrap;
 }
 
-.task-item .row {
-  flex-wrap: nowrap;
+.col{
+  margin-left: 25px;
 }
 
-.task-item .col {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .task-item label {
   margin-right: 10px;
   margin-bottom: 5px;
   width: 100px;
-  text-align: left;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -130,7 +124,7 @@ select {
   width: auto; 
 
     grid-gap: 20px;
-    align-items: center; /* Fix rows vertically */
+    align-items: center;
   }
 
 
@@ -172,7 +166,7 @@ select {
   border-radius: 4px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  width: 600px; /* Set a fixed width for the input field */
+  width: 600px;
 }
 
 
@@ -197,7 +191,7 @@ textarea {
   text-align: center;
   box-sizing: border-box;
   padding-left: -10px;
-  align-self: flex-start; /* Align error message to the left */
+  align-self: flex-start; 
 }
 
 .error-messages{

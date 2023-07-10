@@ -3,4 +3,4 @@ import { bootstrapApplication } from '@angular/platform-browser';
 
 
 bootstrapApplication(ToDoComponent)
-.catch((err)=>console.error(err));
+    .catch((err) => console.error(err));
